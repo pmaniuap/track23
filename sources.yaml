@@ -1,0 +1,110 @@
+# sources.yaml - Financial Market Intelligence Tracker Registry
+sources:
+  # --- Tier 1: Pure Regulatory & Central Bank Feeds (Ground Truth) ---
+  - name: "MAS"
+    tier: 1
+    type: "rss"
+    url: "https://www.mas.gov.sg/rss/pressreleases"
+    institutions: ["MAS"]
+    enabled: true
+
+  - name: "FCA"
+    tier: 1
+    type: "rss"
+    url: "https://www.fca.org.uk/news/rss.xml"
+    institutions: ["FCA"]
+    enabled: true
+
+  - name: "Federal Reserve"
+    tier: 1
+    type: "rss"
+    url: "https://www.federalreserve.gov/feeds/press_all.xml"
+    institutions: ["Federal Reserve", "OCC"]
+    enabled: true
+
+  # --- Tier 2: Primary Mega-Banks, Payment Rails & Banking Trade Outlets ---
+  - name: "Finextra"
+    tier: 2
+    type: "rss"
+    url: "https://www.finextra.com/rss/headlines.aspx"
+    institutions: ["JPMorgan Chase", "Citigroup", "HSBC", "MUFG", "BBVA", "BNP Paribas", "Nordea", "SWIFT", "Visa", "Mastercard"]
+    enabled: true
+
+  - name: "Fintech News Singapore"
+    tier: 2
+    type: "rss"
+    url: "https://fintechnews.sg/feed/"
+    institutions: ["DBS", "OCBC", "UOB", "Standard Chartered", "MAS"]
+    enabled: true
+
+  - name: "The Asian Banker"
+    tier: 2
+    type: "rss"
+    url: "https://theasianbanker.com/feed"
+    institutions: ["DBS", "OCBC", "UOB", "Standard Chartered"]
+    enabled: true
+
+  - name: "PYMNTS"
+    tier: 2
+    type: "rss"
+    url: "https://www.pymnts.com/feed/"
+    institutions: ["Visa", "Mastercard", "American Express", "SWIFT", "TCH"]
+    enabled: true
+
+  - name: "Payments Dive"
+    tier: 2
+    type: "rss"
+    url: "https://www.paymentsdive.com/feeds/news/"
+    institutions: ["SWIFT", "TCH", "Visa", "Mastercard"]
+    enabled: true
+
+  - name: "The Paypers"
+    tier: 2
+    type: "rss"
+    url: "https://www.thepaypers.com/rss/news.xml"
+    institutions: ["SWIFT", "Visa", "Mastercard", "American Express", "TCH"]
+    enabled: true
+
+  - name: "BBVA Blog"
+    tier: 2
+    type: "rss"
+    url: "https://www.bbva.com/en/feed/"
+    institutions: ["BBVA"]
+    enabled: true
+
+  # --- Tier 3: Challengers (Neobanks) & Aggregators ---
+  - name: "Sifted"
+    tier: 3
+    type: "rss"
+    url: "https://sifted.eu/feed"
+    institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
+    enabled: true
+
+  - name: "TechCrunch Fintech"
+    tier: 3
+    type: "rss"
+    url: "https://techcrunch.com/category/fintech/feed/"
+    institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
+    enabled: true
+
+  - name: "AltFi"
+    tier: 3
+    type: "rss"
+    url: "https://www.altfi.com/feed"
+    institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
+    enabled: true
+
+  - name: "Monzo Blog"
+    tier: 3
+    type: "rss"
+    url: "https://monzo.com/feed.xml"
+    institutions: ["Monzo"]
+    enabled: true
+
+  - name: "NewsAPI - Challengers"
+    tier: 3
+    type: "newsapi"
+    query: '"{institution}" AND (launch OR partnership OR acquisition OR regulation OR product)'
+    institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
+    daily_request_budget: 80
+    enabled: true

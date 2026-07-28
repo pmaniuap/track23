@@ -1,0 +1,118 @@
+import { MarketSignal, PipelineRun } from '../types';
+
+export const SAMPLE_SIGNALS: MarketSignal[] = [
+  {
+    id: 'sig-1',
+    source_url: 'https://www.mas.gov.sg/news/press-releases/2026/mas-launches-genai-sandbox-for-wealth-management',
+    institution: 'MAS',
+    event_type: 'Regulatory Action',
+    so_what:
+      'MAS established a regulatory sandbox for generative AI deployment in cross-border wealth management, enforcing mandatory auditability and explainability standards before commercial rollout.',
+    technologies: ['GenAI', 'Explainable AI', 'Regulatory Sandbox'],
+    source_name: 'MAS',
+    source_tier: 1,
+    raw_title: 'MAS Launches Supervisory Framework for Generative AI in Wealth Management',
+    published_at: new Date(Date.now() - 3600 * 1000 * 4).toISOString(),
+  },
+  {
+    id: 'sig-2',
+    source_url: 'https://www.finextra.com/newsarticle/45001/jpmorgan-deploys-agentic-ai-for-fx-settlement',
+    institution: 'JPMorgan Chase',
+    event_type: 'Product Launch',
+    so_what:
+      'JPMorgan Chase deployed autonomous AI agents within its treasury platform to automate real-time multi-currency liquidity forecasting and reduce FX trade settlement latency.',
+    technologies: ['Agentic AI', 'ISO 20022', 'Post-Trade Automation'],
+    source_name: 'Finextra',
+    source_tier: 1,
+    raw_title: 'JPMorgan Chase Introduces Agentic AI Workflows Across Foreign Exchange Operations',
+    published_at: new Date(Date.now() - 3600 * 1000 * 12).toISOString(),
+  },
+  {
+    id: 'sig-3',
+    source_url: 'https://fintechnews.sg/dbs-tokenised-deposits-commercial-launch',
+    institution: 'DBS',
+    event_type: 'Technology Adoption',
+    so_what:
+      'DBS launched Singapore Dollar programmable tokenised deposit services for corporate clients, enabling automated conditional escrow payments and instant 24/7 treasury liquidity.',
+    technologies: ['Tokenised Deposits', 'Smart Contracts', 'Programmable Money'],
+    source_name: 'Fintech News Singapore',
+    source_tier: 2,
+    raw_title: 'DBS Rolls Out Commercial Tokenised Deposit Treasury Solution for Corporate Clients',
+    published_at: new Date(Date.now() - 3600 * 1000 * 18).toISOString(),
+  },
+  {
+    id: 'sig-4',
+    source_url: 'https://www.pymnts.com/visa-b2b-agentic-commerce-integration',
+    institution: 'Visa',
+    event_type: 'Partnership',
+    so_what:
+      'Visa partnered with global cross-border payments processor LianLian to enable machine-to-machine agentic payment authorization across cross-border e-commerce networks.',
+    technologies: ['Agentic Commerce', 'Visa Direct', 'Machine Payments'],
+    source_name: 'PYMNTS',
+    source_tier: 2,
+    raw_title: 'Visa and LianLian Enable Autonomous Machine-to-Machine B2B Payments',
+    published_at: new Date(Date.now() - 3600 * 1000 * 26).toISOString(),
+  },
+  {
+    id: 'sig-5',
+    source_url: 'https://sifted.eu/articles/revolut-esim-global-expansion',
+    institution: 'Revolut',
+    event_type: 'Product Launch',
+    so_what:
+      'Revolut rolled out global eSIM data plans embedded directly within its super-app across 108 countries, diversifying non-interest fee revenue streams for international travellers.',
+    technologies: ['eSIM Technology', 'Super-App Integration', 'Embedded Telco'],
+    source_name: 'Sifted',
+    source_tier: 3,
+    raw_title: 'Revolut Expands Embedded Telco Offerings with Multi-Country eSIM Connectivity',
+    published_at: new Date(Date.now() - 3600 * 1000 * 32).toISOString(),
+  },
+  {
+    id: 'sig-6',
+    source_url: 'https://www.fca.org.uk/news/press-releases/fca-iso20022-mandatory-migration-update',
+    institution: 'FCA',
+    event_type: 'Regulatory Action',
+    so_what:
+      'The FCA issued updated compliance rules forcing UK payment service providers to complete full ISO 20022 rich data messaging alignment ahead of the global SWIFT cutoff.',
+    technologies: ['ISO 20022', 'CBPR+', 'Payment Compliance'],
+    source_name: 'FCA',
+    source_tier: 1,
+    raw_title: 'FCA Enforces Strict Technical Standards for UK Payment Rails Transition',
+    published_at: new Date(Date.now() - 3600 * 1000 * 48).toISOString(),
+  },
+];
+
+export const SAMPLE_RUNS: PipelineRun[] = [
+  {
+    id: 'run-1',
+    run_id: 'a8f92b',
+    source_name: 'Finextra',
+    run_at: new Date(Date.now() - 3600 * 1000 * 2).toISOString(),
+    articles_fetched: 51,
+    articles_deduplicated: 32,
+    articles_processed: 19,
+    articles_written: 19,
+    status: 'success',
+  },
+  {
+    id: 'run-2',
+    run_id: 'a8f92b',
+    source_name: 'MAS',
+    run_at: new Date(Date.now() - 3600 * 1000 * 2).toISOString(),
+    articles_fetched: 20,
+    articles_deduplicated: 14,
+    articles_processed: 6,
+    articles_written: 6,
+    status: 'success',
+  },
+  {
+    id: 'run-3',
+    run_id: 'a8f92b',
+    source_name: 'PYMNTS',
+    run_at: new Date(Date.now() - 3600 * 1000 * 2).toISOString(),
+    articles_fetched: 35,
+    articles_deduplicated: 22,
+    articles_processed: 13,
+    articles_written: 13,
+    status: 'success',
+  },
+];

@@ -1,0 +1,165 @@
+[
+  {
+    "id": "f905d8687129f589864a046e8278eff0",
+    "source_url": "https://www.fca.org.uk/news/blogs/strengthening-resilience-across-increasingly-interconnected-financial-system",
+    "institution": "FCA",
+    "event_type": "Regulatory Action",
+    "so_what": "The FCA has implemented a new oversight regime for critical third-party providers to ensure the resilience of the financial system. This regime aims to address system-level risks and improve coordination and information-sharing across the sector. The FCA will directly oversee these providers, focusing on ensuring the services they provide to UK financial firms and financial market infrastructures are resilient. This move is in response to the increasing reliance of financial services on a small number of common third-party service providers, which can support innovation and efficiency but also poses risks to the entire system.",
+    "technologies": [],
+    "source_name": "FCA",
+    "source_tier": 1,
+    "raw_title": "Strengthening resilience across an increasingly interconnected financial system",
+    "published_at": "2026-07-28T17:16:42.898195+00:00"
+  },
+  {
+    "id": "44409113da2be6b3f4eca6f46a1e93e1",
+    "source_url": "https://www.fca.org.uk/news/press-releases/fca-secures-majority-victims-money-back-convicted-fraudster",
+    "institution": "FCA",
+    "event_type": "Regulatory Action",
+    "so_what": "The FCA has obtained a confiscation order against convicted fraudster John Burford, securing the return of the majority of the money invested by his victims. This move is part of the FCA's efforts to deprive criminals of the proceeds of their crimes and compensate fraud victims. The confiscation order of \u00a3655,951.40 will be used to reimburse the approximately 70 known victims, with nearly all of the original investment expected to be returned. This action demonstrates the FCA's commitment to protecting consumers and enforcing regulatory oversight.",
+    "technologies": [],
+    "source_name": "FCA",
+    "source_tier": 1,
+    "raw_title": "FCA secures majority of victims\u2019 money back from convicted fraudster",
+    "published_at": "2026-07-28T17:16:43.649035+00:00"
+  },
+  {
+    "id": "dc13eadfe6a3b0c868c8140928004a49",
+    "source_url": "https://www.fca.org.uk/news/news-stories/fca-bank-appoint-members-their-transaction-post-trade-reporting-harmonisation-taskforce",
+    "institution": "FCA",
+    "event_type": "Regulatory Action",
+    "so_what": "The FCA and Bank of England have established a taskforce to harmonize transaction and post-trade reporting requirements across UK financial regulations, aiming to improve market oversight and efficiency. This taskforce will inform the long-term approach to harmonizing these requirements, which is crucial for maintaining fair and transparent markets. The taskforce consists of three working groups: Policy, Strategy, and Architecture, each focusing on different aspects of the harmonization process. By doing so, the FCA and Bank of England are taking a proactive approach to regulatory oversight, which may lead to increased confidence in the UK's financial markets.",
+    "technologies": [],
+    "source_name": "FCA",
+    "source_tier": 1,
+    "raw_title": "FCA and Bank appoint members to their Transaction and Post-trade Reporting Harmonisation Taskforce",
+    "published_at": "2026-07-28T17:16:44.386445+00:00"
+  },
+  {
+    "id": "c52cf059fbd8e828862823704d23043e",
+    "source_url": "https://www.fca.org.uk/news/blogs/outcomes-monitoring-why-understanding-consumer-experience-matters",
+    "institution": "FCA",
+    "event_type": "Regulatory Action",
+    "so_what": "The FCA is emphasizing the importance of outcomes monitoring to understanding consumer experience and identifying potential harm. This regulatory action aims to ensure firms focus on delivering improvements that matter to their customers. By doing so, firms can build consumer trust and effectively navigate their financial lives. The FCA's review found that the strongest approaches were structured, evidence-based, and focused on using information to identify risks.",
+    "technologies": [],
+    "source_name": "FCA",
+    "source_tier": 1,
+    "raw_title": "Outcomes monitoring: why understanding the consumer experience matters and where firms should focus",
+    "published_at": "2026-07-28T17:16:45.039989+00:00"
+  },
+  {
+    "id": "644612be64ce6fb170c1f8eaabc21a95",
+    "source_url": "https://www.fca.org.uk/news/press-releases/fca-launches-nationwide-car-finance-campaign",
+    "institution": "FCA",
+    "event_type": "Regulatory Action",
+    "so_what": "The FCA has launched a nationwide campaign to help car finance customers make complaints for free, providing a template complaint letter on their website to increase confidence in direct complaints. This campaign aims to support customers who may be owed compensation, with 59% already considering or having made a claim. The FCA's efforts are part of a larger redress scheme that could compensate consumers \u00a37.5bn. By promoting free tools and resources, the FCA is addressing the issue of customers lacking confidence to complain without using paid services.",
+    "technologies": [],
+    "source_name": "FCA",
+    "source_tier": 1,
+    "raw_title": "You don't need to pay to claim: FCA launches nationwide car finance campaign",
+    "published_at": "2026-07-28T17:16:45.750228+00:00"
+  },
+  {
+    "id": "6cdea6d2e47505404dcd4f280a46b587",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260716a.htm",
+    "institution": "Federal Reserve",
+    "event_type": "Regulatory Action",
+    "so_what": "The Federal Reserve and other federal bank regulatory agencies have issued a joint statement outlining enhanced security procedures for handling highly sensitive information during bank examinations. This move aims to reduce cybersecurity risks while ensuring access to sensitive information. The agencies will review materials on-site and notify affected banks of any potential or confirmed material data breach involving confidential supervisory information within 72 hours. This coordinated approach emphasizes the importance of keeping highly sensitive information confidential and protected against unauthorized access.",
+    "technologies": [],
+    "source_name": "Federal Reserve",
+    "source_tier": 1,
+    "raw_title": "Agencies issue joint statement on handling of highly sensitive information during bank examinations",
+    "published_at": "2026-07-16T12:30:00+00:00"
+  },
+  {
+    "id": "d687e7e36bc6510d3d7fe36f6b6c0a9b",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260716a.htm",
+    "institution": "Federal Reserve",
+    "event_type": "Regulatory Action",
+    "so_what": "The Federal Reserve Board has issued an enforcement action against James Burns, the former chief lending officer of Heritage State Bank, due to appraisal-related lending misconduct. This action highlights the regulatory body's efforts to maintain lending standards and prevent misconduct within the banking industry. The Federal Reserve's enforcement action demonstrates its commitment to upholding regulatory requirements and protecting consumers. The specific details of the misconduct are not provided, but the action suggests that the Federal Reserve is actively monitoring and addressing lending practices.",
+    "technologies": [],
+    "source_name": "Federal Reserve",
+    "source_tier": 1,
+    "raw_title": "Federal Reserve Board issues enforcement action with former chief lending officer of Heritage State Bank",
+    "published_at": "2026-07-16T09:30:00+00:00"
+  },
+  {
+    "id": "fcba6c34d68ae42f1bcdfcc7a45b236c",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260714a.htm",
+    "institution": "Federal Reserve",
+    "event_type": "Regulatory Action",
+    "so_what": "The Federal Reserve Board released the minutes from its recent meetings to review and determine the discount rates provided to depository institutions through the discount window. The Board's process for setting the discount rate is distinct from the process the Federal Open Market Committee follows in setting the target range for the federal funds rate. This release provides insight into the Federal Reserve's decision-making process regarding discount rates. The discount rate is an important monetary policy tool used to influence the overall direction of the economy.",
+    "technologies": [],
+    "source_name": "Federal Reserve",
+    "source_tier": 1,
+    "raw_title": "Minutes of the Board's discount rate meetings on June 8 and June 17, 2026",
+    "published_at": "2026-07-14T12:30:00+00:00"
+  },
+  {
+    "id": "20755a26d099b2fa4521b67394587555",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260709a.htm",
+    "institution": "Federal Reserve",
+    "event_type": "Regulatory Action",
+    "so_what": "The Federal Reserve has established five task forces to enhance the conduct of monetary policy, focusing on areas such as communications, balance sheet policy, data, productivity and jobs, and inflation frameworks. These task forces will be led by external experts and supported by Federal Reserve staff, aiming to provide rigorous findings for the Federal Open Market Committee. The goal is to ensure the Fed is well-positioned to achieve its objectives in a changing economy. The task forces will operate independently and provide candid feedback to sharpen the Fed's performance.",
+    "technologies": [],
+    "source_name": "Federal Reserve",
+    "source_tier": 1,
+    "raw_title": "Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy",
+    "published_at": "2026-07-09T13:30:00+00:00"
+  },
+  {
+    "id": "74f0e44864fc6c91795a1fba89ada0a7",
+    "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260709a.htm",
+    "institution": "Federal Reserve",
+    "event_type": "Regulatory Action",
+    "so_what": "The Federal Reserve Board has issued an enforcement action against TS Banking Group, Inc. and TS Contrarian Bancshares, Inc., indicating a regulatory response to concerns or issues within these banking institutions. The action is in the form of a written agreement dated July 6, 2026, suggesting that the institutions have agreed to certain terms or conditions to address the regulatory concerns. This action demonstrates the Federal Reserve's oversight and enforcement capabilities in ensuring banking institutions operate within regulatory boundaries. The specifics of the agreement and the reasons behind the enforcement action are not detailed in the provided information.",
+    "technologies": [],
+    "source_name": "Federal Reserve",
+    "source_tier": 1,
+    "raw_title": "Federal Reserve Board issues enforcement action with TS Banking Group, Inc. and TS Contrarian Bancshares, Inc.",
+    "published_at": "2026-07-09T09:30:00+00:00"
+  },
+  {
+    "id": "cfdd81743dec6113bbbf64627580f337",
+    "source_url": "https://www.finextra.com/newsarticle/48157/x-money-starts-us-rollout?utm_medium=rssfinextra&utm_source=finextrafeed",
+    "institution": "Visa",
+    "event_type": "Product Launch",
+    "so_what": "X Money is a peer-to-peer payment and money transfer service that also includes a deposit account and physical Visa debit card for POS transactions and ATM withdrawals, offering users up to six per cent APY, three per cent cashback, and early paycheck access. This product aims to transform the social media platform into an 'everything app' where users can conduct their entire financial life. The launch of X Money marks a significant step towards achieving this vision, with plans to expand features to include stock and crypto trading. By integrating financial services into its platform, X aims to reduce the need for traditional bank accounts.",
+    "technologies": [
+      "Visa"
+    ],
+    "source_name": "Finextra",
+    "source_tier": 1,
+    "raw_title": "X Money starts US rollout",
+    "published_at": "2026-07-28T08:46:00+00:00"
+  },
+  {
+    "id": "99bba072f563e1c99406f9ce8a5f6ef3",
+    "source_url": "https://www.finextra.com/newsarticle/48155/standard-chartered-names-cto-for-india-and-south-asia?utm_medium=rssfinextra&utm_source=finextrafeed",
+    "institution": "Standard Chartered",
+    "event_type": "KMP Hire",
+    "so_what": "Standard Chartered has appointed Kavita Kulkami as chief technology and operations officer for India and South Asia, who will be responsible for leading the bank's technology and operations in the region. She will also be a member of the India country management team. Kulkami's experience in leading automation initiatives and increasing the adoption of AI will likely drive technological advancements in the region. Her appointment is expected to enhance the bank's technology and operations capabilities in India and South Asia.",
+    "technologies": [
+      "AI"
+    ],
+    "source_name": "Finextra",
+    "source_tier": 1,
+    "raw_title": "Standard Chartered names CTO for India and South Asia",
+    "published_at": "2026-07-28T06:49:00+00:00"
+  },
+  {
+    "id": "da9b5232739ce3ac44606cacba7fb71b",
+    "source_url": "https://fintechnews.sg/134988/ai/dbs-ai-assistant/",
+    "institution": "DBS",
+    "event_type": "Technology Adoption",
+    "so_what": "DBS is upgrading its virtual assistants to support banking tasks for over 10 million users, allowing corporate and SME customers to complete simple banking tasks within a single conversation. The upgrades include generative AI and agentic AI capabilities across DBS Joy and DBS digibot. The assistants will be able to retrieve and analyze transaction and account data, and present the information in the chat. This will enable customers to handle common banking tasks, such as checking payment status and reviewing fees paid.",
+    "technologies": [
+      "generative AI",
+      "agentic AI"
+    ],
+    "source_name": "Fintech News Singapore",
+    "source_tier": 2,
+    "raw_title": "DBS Upgrades AI Assistants to Support Banking Tasks for Over 10 Million Users",
+    "published_at": "2026-07-28T02:25:14+00:00"
+  }
+]
