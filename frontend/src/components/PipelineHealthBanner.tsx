@@ -12,6 +12,13 @@ export const PipelineHealthBanner: React.FC<PipelineHealthBannerProps> = ({ runs
   if (!runs || runs.length === 0) return null;
 
   const latestRun = runs[0];
+  const latestRunId = latestRun.run_id;
+  const latestRunBatch = runs.filter(r => r.run_id === latestRunId);
+
+  const totalFetched = latestRunBatch.reduce((sum, r) => sum + r.articles_fetched, 0);
+  const totalDeduplicated = latestRunBatch.reduce((sum, r) => sum + r.articles_deduplicated, 0);
+  const totalWritten = latestRunBatch.reduce((sum, r) => sum + r.articles_written, 0);
+
   const formattedDate = new Date(latestRun.run_at).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -41,17 +48,17 @@ export const PipelineHealthBanner: React.FC<PipelineHealthBannerProps> = ({ runs
           <div className="flex items-center space-x-1.5">
             <Database className="w-3.5 h-3.5 text-blue-600" />
             <span>Fetched:</span>
-            <strong className="text-slate-900">{latestRun.articles_fetched}</strong>
+            <strong className="text-slate-900">{totalFetched}</strong>
           </div>
           <div className="flex items-center space-x-1.5">
             <Filter className="w-3.5 h-3.5 text-purple-600" />
             <span>Deduplicated:</span>
-            <strong className="text-slate-900">{latestRun.articles_deduplicated}</strong>
+            <strong className="text-slate-900">{totalDeduplicated}</strong>
           </div>
           <div className="flex items-center space-x-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Net Signals:</span>
-            <strong className="text-slate-900">{latestRun.articles_written}</strong>
+            <strong className="text-slate-900">{totalWritten}</strong>
           </div>
         </div>
       </div>

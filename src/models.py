@@ -1,6 +1,6 @@
 # src/models.py
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Literal, Optional
 from pydantic import BaseModel, Field
 
@@ -101,7 +101,7 @@ class MarketSignal(BaseModel):
 class PipelineRunRecord(BaseModel):
     run_id: str
     source_name: str
-    run_at: datetime = Field(default_factory=datetime.now)
+    run_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     articles_fetched: int = 0
     articles_deduplicated: int = 0
     articles_processed: int = 0
