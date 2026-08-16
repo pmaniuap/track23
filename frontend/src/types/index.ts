@@ -22,7 +22,22 @@ export type InstitutionName =
   | 'TCH'
   | 'Visa'
   | 'Mastercard'
-  | 'American Express';
+  | 'American Express'
+  | 'RBI'
+  | 'IFSCA'
+  | 'HDFC Bank'
+  | 'SBI'
+  | 'State Bank of India'
+  | 'IDFC FIRST Bank'
+  | 'Axis Bank'
+  | 'AU Small Finance Bank'
+  | 'NPCI'
+  | 'UPI'
+  | 'Bharat Bill Payment System'
+  | 'PhonePe'
+  | 'Razorpay'
+  | 'Paytm'
+  | 'CRED';
 
 export type EventType =
   | 'Product Launch'
@@ -43,6 +58,8 @@ export function getInstitutionCategory(institution: string): InstitutionCategory
     case 'FCA':
     case 'Federal Reserve':
     case 'OCC':
+    case 'RBI':
+    case 'IFSCA':
       return 'Regulator';
     case 'JPMorgan Chase':
     case 'Citigroup':
@@ -55,17 +72,30 @@ export function getInstitutionCategory(institution: string): InstitutionCategory
     case 'BBVA':
     case 'BNP Paribas':
     case 'Nordea':
+    case 'HDFC Bank':
+    case 'SBI':
+    case 'State Bank of India':
+    case 'IDFC FIRST Bank':
+    case 'Axis Bank':
+    case 'AU Small Finance Bank':
       return 'Bank';
     case 'Visa':
     case 'Mastercard':
     case 'American Express':
     case 'SWIFT':
     case 'TCH':
+    case 'NPCI':
+    case 'UPI':
+    case 'Bharat Bill Payment System':
       return 'Payment Rails';
     case 'Revolut':
     case 'Monzo':
     case 'Nubank':
     case 'Starling Bank':
+    case 'PhonePe':
+    case 'Razorpay':
+    case 'Paytm':
+    case 'CRED':
       return 'Challenger';
     default:
       return 'Bank';

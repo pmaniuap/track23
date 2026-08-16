@@ -148,7 +148,7 @@ export default function DashboardPage() {
             Financial Market Intelligence Tracker — Early Warning Radar for Global Finance
           </p>
           <p className="mt-1 text-slate-400">
-            Monitoring 23 Global Institutions across Regulators, Mega-Banks, Payment Rails, and Challengers. Built on Apple HIG Light Design Principles.
+            Monitoring 38 Global Institutions across Regulators, Mega-Banks, Payment Rails, and Challengers. Built on Apple HIG Light Design Principles.
           </p>
         </div>
       </footer>

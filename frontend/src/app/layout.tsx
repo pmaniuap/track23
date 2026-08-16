@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Financial Market Intelligence Radar',
-  description: 'Automated strategic intelligence tracking across 23 global financial institutions.',
+  description: 'Automated strategic intelligence tracking across 38 global financial institutions.',
 };
 
 export default function RootLayout({

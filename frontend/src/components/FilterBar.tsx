@@ -35,6 +35,21 @@ const INSTITUTIONS_LIST: InstitutionName[] = [
   'Visa',
   'Mastercard',
   'American Express',
+  'RBI',
+  'IFSCA',
+  'HDFC Bank',
+  'SBI',
+  'State Bank of India',
+  'IDFC FIRST Bank',
+  'Axis Bank',
+  'AU Small Finance Bank',
+  'NPCI',
+  'UPI',
+  'Bharat Bill Payment System',
+  'PhonePe',
+  'Razorpay',
+  'Paytm',
+  'CRED',
 ];
 
 const EVENT_TYPES_LIST: EventType[] = [
@@ -124,7 +139,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               onChange={(e) => onFilterChange({ selectedInstitution: e.target.value })}
               className="hig-input py-2 px-3 text-xs bg-white text-slate-800"
             >
-              <option value="">All Institutions (23)</option>
+              <option value="">All Institutions (38)</option>
               {INSTITUTIONS_LIST.map((inst) => (
                 <option key={inst} value={inst}>
                   {inst}
