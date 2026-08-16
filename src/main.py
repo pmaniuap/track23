@@ -6,6 +6,7 @@ from typing import List
 from src.config import get_settings, load_sources_config
 from src.dedup import Deduplicator
 from src.fetchers.rss import RSSFetcher
+from src.fetchers.newsapi import NewsAPIFetcher
 from src.llm import LLMClient
 from src.models import PipelineRunRecord, RawArticle, SourceConfig
 from src.repository import SignalRepository
@@ -68,6 +69,9 @@ def run_pipeline(source_filter: str = None, tier_filter: int = None, dry_run: bo
         try:
             if source.type == "rss":
                 fetcher = RSSFetcher(config=source)
+                raw_articles: List[RawArticle] = fetcher.fetch()
+            elif source.type == "newsapi":
+                fetcher = NewsAPIFetcher(config=source)
                 raw_articles: List[RawArticle] = fetcher.fetch()
             else:
                 print(f"  -> Skipping source type '{source.type}' (not implemented in MVP step)")

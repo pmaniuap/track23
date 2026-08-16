@@ -1,6 +1,6 @@
 # src/llm.py
 import os
-from typing import Optional
+from typing import Optional, get_args
 from dotenv import load_dotenv
 from src.models import LLMExtraction, MarketSignal, RawArticle, INSTITUTIONS, EVENT_TYPES
 
@@ -52,8 +52,8 @@ ARTICLE DETAILS:
 
 SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
 1. 'institution': Must be EXACTLY ONE of the canonical names from the monitored list:
-   ["Revolut", "Monzo", "Nubank", "Starling Bank", "DBS", "OCBC", "UOB", "Standard Chartered", "MAS", "JPMorgan Chase", "Citigroup", "HSBC", "MUFG", "BBVA", "BNP Paribas", "Nordea", "FCA", "Federal Reserve", "OCC", "SWIFT", "TCH", "Visa", "Mastercard", "American Express"].
-   CRITICAL RULE: If the article is NOT primarily about one of these 23 institutions (e.g. it is about an unmonitored vendor like Fenergo, Iwoca, or Stripe), pick the primary bank/regulator involved if present, or match the closest target institution. Do NOT invent new institution names outside the canonical list.
+   {list(get_args(INSTITUTIONS))}.
+   CRITICAL RULE: If the article is NOT primarily about one of these {len(get_args(INSTITUTIONS))} institutions (e.g. it is about an unmonitored vendor like Fenergo, Iwoca, or Stripe), pick the primary bank/regulator involved if present, or match the closest target institution. Do NOT invent new institution names outside the canonical list.
 2. 'event_type': Must be EXACTLY ONE of:
    ["Product Launch", "Investment/M&A", "Strategic Pivot", "KMP Hire", "Regulatory Action", "Partnership", "Technology Adoption"].
 3. 'so_what': 2-4 sentences explaining the ACTUAL product built, customer use-case solved, or business rationale. Avoid generic summary fluff.
@@ -120,23 +120,13 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
         content_lower = article.content.lower()
 
         matched_institution = None
-        for inst in [
-            "Revolut", "Monzo", "Nubank", "Starling Bank", "DBS", "OCBC", "UOB",
-            "Standard Chartered", "MAS", "JPMorgan Chase", "Citigroup", "HSBC",
-            "MUFG", "BBVA", "BNP Paribas", "Nordea", "FCA", "Federal Reserve",
-            "OCC", "SWIFT", "TCH", "Visa", "Mastercard", "American Express"
-        ]:
+        for inst in get_args(INSTITUTIONS):
             if inst.lower() in title_lower:
                 matched_institution = inst
                 break
 
         if not matched_institution:
-            for inst in [
-                "Revolut", "Monzo", "Nubank", "Starling Bank", "DBS", "OCBC", "UOB",
-                "Standard Chartered", "MAS", "JPMorgan Chase", "Citigroup", "HSBC",
-                "MUFG", "BBVA", "BNP Paribas", "Nordea", "FCA", "Federal Reserve",
-                "OCC", "SWIFT", "TCH", "Visa", "Mastercard", "American Express"
-            ]:
+            for inst in get_args(INSTITUTIONS):
                 if inst.lower() in content_lower:
                     matched_institution = inst
                     break

@@ -30,6 +30,21 @@ INSTITUTIONS = Literal[
     "Visa",
     "Mastercard",
     "American Express",
+    "RBI",
+    "IFSCA",
+    "HDFC Bank",
+    "SBI",
+    "State Bank of India",
+    "IDFC FIRST Bank",
+    "Axis Bank",
+    "AU Small Finance Bank",
+    "NPCI",
+    "UPI",
+    "Bharat Bill Payment System",
+    "PhonePe",
+    "Razorpay",
+    "Paytm",
+    "CRED",
 ]
 
 # Canonical event types

@@ -92,9 +92,9 @@ class RSSFetcher(BaseFetcher):
     def _extract_full_text(self, url: str) -> Optional[str]:
         """Fetch article HTML and extract clean full body text using trafilatura."""
         try:
-            downloaded = trafilatura.fetch_url(url)
-            if downloaded:
-                result = trafilatura.extract(downloaded, include_links=False, include_comments=False)
+            response = httpx.get(url, timeout=self.timeout, follow_redirects=True, headers=self.headers)
+            if response.status_code == 200 and response.text:
+                result = trafilatura.extract(response.text, include_links=False, include_comments=False)
                 if result:
                     return result.strip()
         except Exception:
