@@ -1,13 +1,6 @@
 # sources.yaml - Financial Market Intelligence Tracker Registry
 sources:
   # --- Tier 1: Pure Regulatory & Central Bank Feeds (Ground Truth) ---
-  - name: "MAS"
-    tier: 1
-    type: "rss"
-    url: "https://www.mas.gov.sg/rss/pressreleases"
-    institutions: ["MAS"]
-    enabled: true
-
   - name: "FCA"
     tier: 1
     type: "rss"
@@ -19,10 +12,90 @@ sources:
     tier: 1
     type: "rss"
     url: "https://www.federalreserve.gov/feeds/press_all.xml"
-    institutions: ["Federal Reserve", "OCC"]
+    institutions: ["Federal Reserve"]
+    enabled: true
+
+  - name: "OCC"
+    tier: 1
+    type: "rss"
+    url: "https://www.occ.gov/rss/occ_news.xml"
+    institutions: ["OCC"]
+    enabled: true
+
+  - name: "RBI"
+    tier: 1
+    type: "rss"
+    url: "https://rbi.org.in/pressreleases_rss.xml"
+    institutions: ["Reserve Bank of India", "RBI"]
+    enabled: true
+
+  - name: "MAS"
+    tier: 1
+    type: "newsapi"
+    query: '"Monetary Authority of Singapore" AND (regulation OR circular OR penalty OR framework)'
+    institutions: ["MAS"]
+    daily_request_budget: 20
     enabled: true
 
   # --- Tier 2: Primary Mega-Banks, Payment Rails & Banking Trade Outlets ---
+  # Primary Official Feeds
+  - name: "JPMorgan Chase Official"
+    tier: 2
+    type: "rss"
+    url: "https://www.jpmorganchase.com/newsroom/stories/rss.xml"
+    institutions: ["JPMorgan Chase"]
+    enabled: true
+
+  - name: "Citi Official"
+    tier: 2
+    type: "rss"
+    url: "https://www.citigroup.com/global/rss"
+    institutions: ["Citigroup"]
+    enabled: true
+
+  - name: "HSBC Official"
+    tier: 2
+    type: "rss"
+    url: "https://www.hsbc.com/rss-feed"
+    institutions: ["HSBC"]
+    enabled: true
+
+  - name: "BNP Paribas Official"
+    tier: 2
+    type: "rss"
+    url: "https://group.bnpparibas/en/rss/news/press-release"
+    institutions: ["BNP Paribas"]
+    enabled: true
+
+  - name: "Nordea Official"
+    tier: 2
+    type: "rss"
+    url: "https://www.nordea.com/en/rss.xml"
+    institutions: ["Nordea"]
+    enabled: true
+
+  - name: "UOB Official"
+    tier: 2
+    type: "rss"
+    url: "https://www.uobgroup.com/uobgroup/rss.xml"
+    institutions: ["UOB"]
+    enabled: true
+
+  - name: "Amex Official"
+    tier: 2
+    type: "rss"
+    url: "https://about.americanexpress.com/rss/news-releases.xml"
+    institutions: ["American Express"]
+    enabled: true
+
+  - name: "BBVA Blog"
+    tier: 2
+    type: "rss"
+    url: "https://www.bbva.com/en/feed/"
+    institutions: ["BBVA"]
+    enabled: true
+
+  # Secondary Aggregators
   - name: "Finextra"
     tier: 2
     type: "rss"
@@ -65,14 +138,28 @@ sources:
     institutions: ["SWIFT", "Visa", "Mastercard", "American Express", "TCH"]
     enabled: true
 
-  - name: "BBVA Blog"
+  - name: "Economic Times Banking"
     tier: 2
     type: "rss"
-    url: "https://www.bbva.com/en/feed/"
-    institutions: ["BBVA"]
+    url: "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms"
+    institutions: ["HDFC Bank", "SBI", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System"]
+    enabled: true
+
+  - name: "Moneycontrol Business"
+    tier: 2
+    type: "rss"
+    url: "https://www.moneycontrol.com/rss/business.xml"
+    institutions: ["HDFC Bank", "SBI", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System", "IFSCA"]
     enabled: true
 
   # --- Tier 3: Challengers (Neobanks) & Aggregators ---
+  - name: "Revolut Blog"
+    tier: 3
+    type: "rss"
+    url: "https://blog.revolut.com/rss"
+    institutions: ["Revolut"]
+    enabled: true
+
   - name: "Sifted"
     tier: 3
     type: "rss"
@@ -94,17 +181,25 @@ sources:
     institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
     enabled: true
 
-  - name: "Monzo Blog"
+  - name: "Inc42"
     tier: 3
     type: "rss"
-    url: "https://monzo.com/feed.xml"
-    institutions: ["Monzo"]
+    url: "https://inc42.com/feed/"
+    institutions: ["PhonePe", "Razorpay", "Paytm", "CRED"]
     enabled: true
 
-  - name: "NewsAPI - Challengers"
+  - name: "NewsAPI - Global Challengers"
     tier: 3
     type: "newsapi"
     query: '"{institution}" AND (launch OR partnership OR acquisition OR regulation OR product)'
     institutions: ["Revolut", "Monzo", "Nubank", "Starling Bank"]
+    daily_request_budget: 80
+    enabled: true
+
+  - name: "NewsAPI - Indian Fintechs"
+    tier: 3
+    type: "newsapi"
+    query: '"{institution}" AND (launch OR partnership OR acquisition OR regulation OR product)'
+    institutions: ["PhonePe", "Razorpay", "Paytm", "CRED", "IFSCA"]
     daily_request_budget: 80
     enabled: true
