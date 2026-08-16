@@ -8,59 +8,49 @@ load_dotenv()
 
 
 class LLMClient:
-    """LLM Analyst Client powered by Groq API (Llama 3.3 70B & 8B Instant) via Instructor for structured Pydantic outputs."""
+    """LLM Analyst Client powered by Groq API via Instructor for structured Pydantic outputs."""
 
     def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or os.getenv("GROQ_API_KEY") or os.getenv("GEMINI_API_KEY")
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self._groq_client = None
-        self._gemini_client = None
-        self.groq_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+        self.groq_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
+        self.groq_disabled = False
 
-        if os.getenv("GROQ_API_KEY") or api_key:
+        if self.api_key:
             try:
                 import instructor
                 from groq import Groq
 
-                groq_key = api_key or os.getenv("GROQ_API_KEY")
-                client = Groq(api_key=groq_key)
+                client = Groq(api_key=self.api_key)
                 self._groq_client = instructor.from_groq(client)
             except Exception as e:
                 print(f"[LLMClient Warning] Failed to initialize Groq client: {e}")
 
-        # Fallback to Gemini if Groq key is absent
-        if not self._groq_client and os.getenv("GEMINI_API_KEY"):
-            try:
-                import instructor
-                from google import genai
-
-                client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-                self._gemini_client = instructor.from_genai(client)
-            except Exception as e:
-                print(f"[LLMClient Warning] Failed to initialize Gemini client: {e}")
-
     def analyze_article(self, article: RawArticle) -> Optional[MarketSignal]:
         """Process raw article and extract structured MarketSignal with strict entity disambiguation."""
+        if self.groq_disabled:
+            return self._generate_fallback_signal(article)
+
         prompt = f"""
-You are a senior financial market intelligence analyst tracking strategic pivots, product launches, tech acquisitions, and regulatory actions across 23 target financial institutions and networks.
+You are a senior financial market intelligence analyst tracking strategic pivots, product launches, tech acquisitions, and regulatory actions across target financial institutions and networks.
 
 Analyze the following article and extract structured intelligence.
 
 ARTICLE DETAILS:
 - Title: {article.raw_title}
 - Source: {article.source_name} (Tier {article.source_tier})
-- Content: {article.content[:3000]}
+- Content: {article.content[:800]}
 
 SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
 1. 'institution': Must be EXACTLY ONE of the canonical names from the monitored list:
    {list(get_args(INSTITUTIONS))}.
-   CRITICAL RULE: If the article is NOT primarily about one of these {len(get_args(INSTITUTIONS))} institutions (e.g. it is about an unmonitored vendor like Fenergo, Iwoca, or Stripe), pick the primary bank/regulator involved if present, or match the closest target institution. Do NOT invent new institution names outside the canonical list.
+   CRITICAL RULE: If the article is NOT primarily about one of these {len(get_args(INSTITUTIONS))} institutions, pick the primary bank/regulator involved if present, or match the closest target institution. If completely irrelevant, use "Other / Unmonitored". Do NOT invent new institution names outside the canonical list.
 2. 'event_type': Must be EXACTLY ONE of:
    ["Product Launch", "Investment/M&A", "Strategic Pivot", "KMP Hire", "Regulatory Action", "Partnership", "Technology Adoption"].
 3. 'so_what': 2-4 sentences explaining the ACTUAL product built, customer use-case solved, or business rationale. Avoid generic summary fluff.
 4. 'technologies': Specific named technologies/standards mentioned in the text (e.g. "ISO 20022", "GenAI", "Post-Quantum Cryptography"). Return empty list if none mentioned.
 """
 
-        # Primary: Groq API with auto-model fallback (70B -> 8B Instant)
         if self._groq_client:
             for model in self.groq_models:
                 try:
@@ -69,6 +59,11 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
                         response_model=LLMExtraction,
                         messages=[{"role": "user", "content": prompt}],
                     )
+                    
+                    if extraction.institution == "Other / Unmonitored":
+                        print(f"  [LLM Note] Article '{article.raw_title[:60]}' tagged as Unmonitored.")
+                        return None
+                        
                     return MarketSignal(
                         institution=extraction.institution,
                         event_type=extraction.event_type,
@@ -82,34 +77,15 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
                     )
                 except Exception as e:
                     if "429" in str(e) or "rate_limit_exceeded" in str(e):
-                        print(f"  [Groq Rate Limit] Model {model} hit limit, trying next model...")
+                        print(f"  [Groq Rate Limit] Model {model} hit limit, trying next...")
                         continue
                     else:
                         print(f"  [LLM Note] Article '{article.raw_title[:60]}' skipped ({e})")
                         return None
 
-        # Backup: Gemini API
-        if self._gemini_client:
-            try:
-                extraction: LLMExtraction = self._gemini_client.messages.create(
-                    model="gemini-2.5-flash",
-                    response_model=LLMExtraction,
-                    messages=[{"role": "user", "content": prompt}],
-                )
-                return MarketSignal(
-                    institution=extraction.institution,
-                    event_type=extraction.event_type,
-                    so_what=extraction.so_what,
-                    technologies=extraction.technologies,
-                    source_url=str(article.source_url),
-                    source_name=article.source_name,
-                    source_tier=article.source_tier,
-                    published_at=article.published_at,
-                    raw_title=article.raw_title,
-                )
-            except Exception as e:
-                print(f"  [LLM Note] Gemini extraction skipped for '{article.raw_title[:60]}': {e}")
-                return None
+            # If it tried all models and hit rate limits for all of them:
+            print("  [Groq Rate Limit] All models rate limited. Disabling Groq for remainder of run.")
+            self.groq_disabled = True
 
         # Fallback offline signal
         return self._generate_fallback_signal(article)
@@ -131,7 +107,7 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
                     matched_institution = inst
                     break
 
-        if not matched_institution:
+        if not matched_institution or matched_institution == "Other / Unmonitored":
             matched_institution = "JPMorgan Chase"
 
         event_type = "Strategic Pivot"

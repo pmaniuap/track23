@@ -38,7 +38,6 @@ const INSTITUTIONS_LIST: InstitutionName[] = [
   'RBI',
   'IFSCA',
   'HDFC Bank',
-  'SBI',
   'State Bank of India',
   'IDFC FIRST Bank',
   'Axis Bank',
@@ -79,6 +78,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     Boolean(filters.selectedInstitution) ||
     Boolean(filters.selectedEventType) ||
     Boolean(filters.selectedCategory) ||
+    Boolean(filters.selectedRegion !== 'All') ||
     Boolean((filters as any).selectedTier);
 
   return (
@@ -114,8 +114,25 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           />
         </div>
 
-        {/* Dropdown Filters */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        {/* Dropdown Filters and Region Chips */}
+        <div className="flex flex-wrap items-center gap-3 text-xs">
+          {/* Region Filter Chips */}
+          <div className="flex items-center space-x-1.5 bg-slate-50 p-1 rounded-md border border-slate-200">
+            {(['All', 'Indian', 'International'] as const).map((region) => (
+              <button
+                key={region}
+                onClick={() => onFilterChange({ selectedRegion: region })}
+                className={`px-3 py-1.5 text-xs rounded-md font-medium transition-all ${
+                  filters.selectedRegion === region
+                    ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                }`}
+              >
+                {region === 'All' ? 'All Regions' : region === 'Indian' ? '🇮🇳 Indian' : '🌐 International'}
+              </button>
+            ))}
+          </div>
+
           {/* Category Filter */}
           <div className="flex items-center space-x-1">
             <select
@@ -139,7 +156,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               onChange={(e) => onFilterChange({ selectedInstitution: e.target.value })}
               className="hig-input py-2 px-3 text-xs bg-white text-slate-800"
             >
-              <option value="">All Institutions (38)</option>
+              <option value="">All Institutions (37)</option>
               {INSTITUTIONS_LIST.map((inst) => (
                 <option key={inst} value={inst}>
                   {inst}

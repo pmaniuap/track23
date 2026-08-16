@@ -142,14 +142,14 @@ sources:
     tier: 2
     type: "rss"
     url: "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms"
-    institutions: ["HDFC Bank", "SBI", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System"]
+    institutions: ["HDFC Bank", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System"]
     enabled: true
 
   - name: "Moneycontrol Business"
     tier: 2
     type: "rss"
     url: "https://www.moneycontrol.com/rss/business.xml"
-    institutions: ["HDFC Bank", "SBI", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System", "IFSCA"]
+    institutions: ["HDFC Bank", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System", "IFSCA"]
     enabled: true
 
   # --- Tier 3: Challengers (Neobanks) & Aggregators ---

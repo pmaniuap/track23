@@ -26,7 +26,6 @@ export type InstitutionName =
   | 'RBI'
   | 'IFSCA'
   | 'HDFC Bank'
-  | 'SBI'
   | 'State Bank of India'
   | 'IDFC FIRST Bank'
   | 'Axis Bank'
@@ -37,7 +36,8 @@ export type InstitutionName =
   | 'PhonePe'
   | 'Razorpay'
   | 'Paytm'
-  | 'CRED';
+  | 'CRED'
+  | 'Other / Unmonitored';
 
 export type EventType =
   | 'Product Launch'
@@ -50,7 +50,8 @@ export type EventType =
 
 export type SourceTier = 1 | 2 | 3;
 
-export type InstitutionCategory = 'Regulator' | 'Bank' | 'Payment Rails' | 'Challenger';
+export type InstitutionCategory = 'Regulator' | 'Bank' | 'Payment Rails' | 'Challenger' | 'Other';
+export type RegionFilter = 'All' | 'Indian' | 'International';
 
 export function getInstitutionCategory(institution: string): InstitutionCategory {
   switch (institution) {
@@ -73,7 +74,6 @@ export function getInstitutionCategory(institution: string): InstitutionCategory
     case 'BNP Paribas':
     case 'Nordea':
     case 'HDFC Bank':
-    case 'SBI':
     case 'State Bank of India':
     case 'IDFC FIRST Bank':
     case 'Axis Bank':
@@ -98,8 +98,24 @@ export function getInstitutionCategory(institution: string): InstitutionCategory
     case 'CRED':
       return 'Challenger';
     default:
-      return 'Bank';
+      return 'Other';
   }
+}
+
+export function getInstitutionRegion(institution: string): RegionFilter {
+  const indianInstitutions = [
+    'RBI', 'IFSCA', 'HDFC Bank', 'State Bank of India', 'IDFC FIRST Bank',
+    'Axis Bank', 'AU Small Finance Bank', 'NPCI', 'UPI', 'Bharat Bill Payment System',
+    'PhonePe', 'Razorpay', 'Paytm', 'CRED'
+  ];
+  
+  if (indianInstitutions.includes(institution)) {
+    return 'Indian';
+  }
+  if (institution === 'Other / Unmonitored') {
+    return 'All';
+  }
+  return 'International';
 }
 
 export interface MarketSignal {
@@ -134,5 +150,6 @@ export interface FilterState {
   selectedInstitution: string;
   selectedEventType: string;
   selectedCategory: string;
+  selectedRegion: RegionFilter;
   sortBy: 'latest' | 'oldest';
 }

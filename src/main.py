@@ -7,6 +7,7 @@ from src.config import get_settings, load_sources_config
 from src.dedup import Deduplicator
 from src.fetchers.rss import RSSFetcher
 from src.fetchers.newsapi import NewsAPIFetcher
+from src.filter import EntityMatcher
 from src.llm import LLMClient
 from src.models import PipelineRunRecord, RawArticle, SourceConfig
 from src.repository import SignalRepository
@@ -47,6 +48,7 @@ def run_pipeline(source_filter: str = None, tier_filter: int = None, dry_run: bo
 
     existing_hashes = repository.fetch_existing_title_hashes()
     deduplicator = Deduplicator(existing_hashes=existing_hashes)
+    entity_matcher = EntityMatcher()
 
     run_id = str(uuid.uuid4())[:8]
     print(f"Pipeline Run ID: {run_id} | DB Connected: {repository.is_connected} | Sources Loaded: {len(sources)}")
@@ -81,9 +83,14 @@ def run_pipeline(source_filter: str = None, tier_filter: int = None, dry_run: bo
             total_fetched += fetch_count
             print(f"  -> Fetched {fetch_count} raw articles")
 
+            # Pass 0 Pre-Filtering
+            relevant_articles = [a for a in raw_articles if entity_matcher.is_relevant(a)]
+            dropped_count = fetch_count - len(relevant_articles)
+            print(f"  -> Pre-filtered {dropped_count} irrelevant articles")
+
             # Pass 1 Deduplication
-            net_new_articles = deduplicator.filter_hash(raw_articles)
-            dedup_count = fetch_count - len(net_new_articles)
+            net_new_articles = deduplicator.filter_hash(relevant_articles)
+            dedup_count = len(relevant_articles) - len(net_new_articles)
             print(f"  -> Deduplicated {dedup_count} articles ({len(net_new_articles)} net-new)")
 
             # LLM Analysis & Save Loop

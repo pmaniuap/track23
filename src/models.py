@@ -33,7 +33,6 @@ INSTITUTIONS = Literal[
     "RBI",
     "IFSCA",
     "HDFC Bank",
-    "SBI",
     "State Bank of India",
     "IDFC FIRST Bank",
     "Axis Bank",
@@ -45,6 +44,7 @@ INSTITUTIONS = Literal[
     "Razorpay",
     "Paytm",
     "CRED",
+    "Other / Unmonitored",
 ]
 
 # Canonical event types

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { FilterState, MarketSignal, PipelineRun, getInstitutionCategory } from '../types';
+import { FilterState, MarketSignal, PipelineRun, getInstitutionCategory, getInstitutionRegion } from '../types';
 import { fetchMarketSignals, fetchPipelineRuns } from '../lib/supabase';
 import { Header } from '../components/Header';
 import { PipelineHealthBanner } from '../components/PipelineHealthBanner';
@@ -14,6 +14,7 @@ const initialFilters: FilterState = {
   selectedInstitution: '',
   selectedEventType: '',
   selectedCategory: '',
+  selectedRegion: 'All',
   sortBy: 'latest',
 };
 
@@ -74,6 +75,14 @@ export default function DashboardPage() {
         if (filters.selectedCategory) {
           const cat = getInstitutionCategory(sig.institution);
           if (cat.toLowerCase() !== filters.selectedCategory.toLowerCase()) {
+            return false;
+          }
+        }
+
+        // Region Filter
+        if (filters.selectedRegion && filters.selectedRegion !== 'All') {
+          const region = getInstitutionRegion(sig.institution);
+          if (region !== filters.selectedRegion) {
             return false;
           }
         }
@@ -148,7 +157,7 @@ export default function DashboardPage() {
             Financial Market Intelligence Tracker — Early Warning Radar for Global Finance
           </p>
           <p className="mt-1 text-slate-400">
-            Monitoring 38 Global Institutions across Regulators, Mega-Banks, Payment Rails, and Challengers. Built on Apple HIG Light Design Principles.
+            Monitoring 37 Global Institutions across Regulators, Mega-Banks, Payment Rails, and Challengers. Built on Apple HIG Light Design Principles.
           </p>
         </div>
       </footer>
