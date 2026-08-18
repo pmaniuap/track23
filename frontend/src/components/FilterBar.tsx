@@ -82,10 +82,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     Boolean((filters as any).selectedTier);
 
   return (
-    <div className="bg-white border-b border-slate-200 py-4 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
+    <div className="bg-white border-b border-slate-200 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
         {/* Search Bar Container with Fixed Relative Icon Placement */}
-        <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+        <div style={{ position: 'relative', width: '100%' }}>
           <Search
             style={{
               position: 'absolute',
@@ -117,15 +117,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {/* Dropdown Filters and Region Chips */}
         <div className="flex flex-wrap items-center gap-3 text-xs">
           {/* Region Filter Chips */}
-          <div className="flex items-center space-x-1.5 bg-slate-50 p-1 rounded-md border border-slate-200">
+          <div className="flex items-center space-x-1">
             {(['All', 'Indian', 'International'] as const).map((region) => (
               <button
                 key={region}
                 onClick={() => onFilterChange({ selectedRegion: region })}
                 className={`px-3 py-1.5 text-xs rounded-md font-medium transition-all ${
                   filters.selectedRegion === region
-                    ? 'bg-white text-blue-700 shadow-sm border border-slate-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
+                    ? 'bg-white text-slate-900 border border-slate-300 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-600 border border-transparent bg-transparent'
                 }`}
               >
                 {region === 'All' ? 'All Regions' : region === 'Indian' ? '🇮🇳 Indian' : '🌐 International'}
@@ -150,7 +150,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </div>
 
           {/* Institution Filter */}
-          <div className="flex items-center space-x-1">
+          <div className="flex-none">
             <select
               value={filters.selectedInstitution}
               onChange={(e) => onFilterChange({ selectedInstitution: e.target.value })}
@@ -166,7 +166,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </div>
 
           {/* Event Type Filter */}
-          <div className="flex items-center space-x-1">
+          <div className="flex-none">
             <select
               value={filters.selectedEventType}
               onChange={(e) => onFilterChange({ selectedEventType: e.target.value })}
@@ -182,7 +182,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           </div>
 
           {/* Sort By */}
-          <div className="flex items-center space-x-1">
+          <div className="flex-none">
             <select
               value={filters.sortBy}
               onChange={(e) =>
@@ -197,14 +197,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
           {/* Reset Filters */}
           {hasActiveFilters && (
-            <button
-              onClick={onReset}
-              className="hig-button py-2 px-3 text-xs text-rose-600 border-rose-200 hover:bg-rose-50 flex items-center space-x-1"
-              title="Reset all filters"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span>Reset</span>
-            </button>
+            <div className="flex-none">
+              <button
+                onClick={onReset}
+                className="hig-button h-[34px] px-3 text-xs text-rose-600 border-rose-200 hover:bg-rose-50 flex items-center justify-center gap-1.5"
+                title="Reset all filters"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span className="font-medium leading-none">Reset</span>
+              </button>
+            </div>
           )}
         </div>
       </div>

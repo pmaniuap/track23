@@ -37,22 +37,10 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Status Indicators & Refresh */}
         <div className="flex items-center space-x-4">
           {/* Signal Counter */}
-          <div className="hidden sm:flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
+          <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
             <Layers className="w-3.5 h-3.5 text-slate-500" />
             <span className="font-semibold text-slate-900">{totalSignals}</span>
-            <span>Signals</span>
-          </div>
-
-          {/* Mode Pill */}
-          <div className="flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded-full font-medium border border-slate-200">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isLive ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'
-              }`}
-            />
-            <span className="text-slate-700">
-              {isLive ? 'Live Supabase DB' : 'Demo / Sample Mode'}
-            </span>
+            <span>Total Historical Signals</span>
           </div>
 
           {/* Refresh Button */}

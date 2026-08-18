@@ -44,9 +44,10 @@ ARTICLE DETAILS:
 SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
 1. 'institution': Must be EXACTLY ONE of the canonical names from the monitored list:
    {list(get_args(INSTITUTIONS))}.
-   CRITICAL RULE: If the article is NOT primarily about one of these {len(get_args(INSTITUTIONS))} institutions, pick the primary bank/regulator involved if present, or match the closest target institution. If completely irrelevant, use "Other / Unmonitored". Do NOT invent new institution names outside the canonical list.
+   CRITICAL RULE: If the article is a general stock market roundup, listicle, or mentions the institution only in passing (e.g. "Turtlemint jumps, Paytm falls"), YOU MUST output "Other / Unmonitored". Do NOT invent new institution names outside the canonical list.
 2. 'event_type': Must be EXACTLY ONE of:
    ["Product Launch", "Investment/M&A", "Strategic Pivot", "KMP Hire", "Regulatory Action", "Partnership", "Technology Adoption"].
+   CRITICAL RULE: If there is no specific corporate, technology, or regulatory event detailed, output "Other / Unmonitored" as the institution to reject it. Do not force-fit an event type for stock price movements.
 3. 'so_what': 2-4 sentences explaining the ACTUAL product built, customer use-case solved, or business rationale. Avoid generic summary fluff.
 4. 'technologies': Specific named technologies/standards mentioned in the text (e.g. "ISO 20022", "GenAI", "Post-Quantum Cryptography"). Return empty list if none mentioned.
 """

@@ -10,8 +10,8 @@ interface EmptyStateProps {
 export const EmptyState: React.FC<EmptyStateProps> = ({ onReset }) => {
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-12 text-center max-w-md mx-auto my-12 shadow-sm">
-      <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-4">
-        <SearchX className="w-6 h-6" />
+      <div className="flex items-center justify-center text-slate-400 mx-auto mb-4">
+        <SearchX className="w-10 h-10" strokeWidth={1.5} />
       </div>
       <h3 className="text-base font-semibold text-slate-900 mb-1">
         No Market Signals Found
@@ -21,10 +21,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onReset }) => {
       </p>
       <button
         onClick={onReset}
-        className="hig-button-primary inline-flex items-center gap-1.5 text-xs"
+        className="hig-button-primary flex items-center justify-center gap-1.5 mx-auto"
       >
         <RotateCcw className="w-3.5 h-3.5" />
-        <span>Reset Filters</span>
+        <span className="text-xs font-medium translate-y-[1px]">Reset Filters</span>
       </button>
     </div>
   );
