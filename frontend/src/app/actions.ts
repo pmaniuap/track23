@@ -17,29 +17,15 @@ export interface SourceDefinition {
 
 export async function getSourcesConfig(): Promise<SourceDefinition[]> {
   try {
-    // Navigate up from frontend/src/app to the root track23 directory
-    const sourcesPath = path.join(process.cwd(), '..', 'sources.yaml');
+    // Use a statically analyzable path so Vercel includes it in the Lambda
+    const sourcesPath = path.join(process.cwd(), 'sources.yaml');
     
-    // In some environments, process.cwd() might be track23 or frontend
-    // Let's resolve safely
-    const possiblePaths = [
-      path.join(process.cwd(), 'sources.yaml'), // If running from track23
-      path.join(process.cwd(), '..', 'sources.yaml'), // If running from track23/frontend
-      path.join(process.cwd(), '..', '..', 'sources.yaml') // Fallback
-    ];
-
-    let fileContents = '';
-    for (const p of possiblePaths) {
-      if (fs.existsSync(p)) {
-        fileContents = fs.readFileSync(p, 'utf8');
-        break;
-      }
-    }
-
-    if (!fileContents) {
-      console.warn("Could not find sources.yaml");
+    if (!fs.existsSync(sourcesPath)) {
+      console.warn("Could not find sources.yaml at", sourcesPath);
       return [];
     }
+
+    const fileContents = fs.readFileSync(sourcesPath, 'utf8');
 
     const doc = yaml.load(fileContents) as { sources: SourceDefinition[] };
     return doc.sources || [];

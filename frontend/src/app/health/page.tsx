@@ -216,9 +216,9 @@ export default function HealthDashboardPage() {
           </div>
           
           <div className="p-4 bg-slate-50">
-            {renderTierTable(1, sourceStats[1], "Ground Truth (Regulators & Central Banks)")}
-            {renderTierTable(2, sourceStats[2], "Mega-Banks & Premium Outlets")}
-            {renderTierTable(3, sourceStats[3], "Challengers & General News")}
+            {renderTierTable(1, sourceStats[1], "Tier 1 (Highest Quality)")}
+            {renderTierTable(2, sourceStats[2], "Tier 2 (Medium Quality)")}
+            {renderTierTable(3, sourceStats[3], "Tier 3 (Lower Quality/General)")}
           </div>
         </div>
       </main>
