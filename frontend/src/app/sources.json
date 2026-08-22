@@ -1,0 +1,349 @@
+{
+  "sources": [
+    {
+      "name": "FCA",
+      "tier": 1,
+      "type": "rss",
+      "url": "https://www.fca.org.uk/news/rss.xml",
+      "institutions": [
+        "FCA"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Federal Reserve",
+      "tier": 1,
+      "type": "rss",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "institutions": [
+        "Federal Reserve"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "OCC",
+      "tier": 1,
+      "type": "rss",
+      "url": "https://www.occ.gov/rss/occ_news.xml",
+      "institutions": [
+        "OCC"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "RBI",
+      "tier": 1,
+      "type": "rss",
+      "url": "https://rbi.org.in/pressreleases_rss.xml",
+      "institutions": [
+        "Reserve Bank of India",
+        "RBI"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "MAS",
+      "tier": 1,
+      "type": "newsapi",
+      "query": "\"Monetary Authority of Singapore\" AND (regulation OR circular OR penalty OR framework)",
+      "institutions": [
+        "MAS"
+      ],
+      "daily_request_budget": 20,
+      "enabled": true
+    },
+    {
+      "name": "JPMorgan Chase Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.jpmorganchase.com/newsroom/stories/rss.xml",
+      "institutions": [
+        "JPMorgan Chase"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Citi Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.citigroup.com/global/rss",
+      "institutions": [
+        "Citigroup"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "HSBC Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.hsbc.com/rss-feed",
+      "institutions": [
+        "HSBC"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "BNP Paribas Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://group.bnpparibas/en/rss/news/press-release",
+      "institutions": [
+        "BNP Paribas"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Nordea Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.nordea.com/en/rss.xml",
+      "institutions": [
+        "Nordea"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "UOB Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.uobgroup.com/uobgroup/rss.xml",
+      "institutions": [
+        "UOB"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Amex Official",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://about.americanexpress.com/rss/news-releases.xml",
+      "institutions": [
+        "American Express"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "BBVA Blog",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://www.bbva.com/en/feed/",
+      "institutions": [
+        "BBVA"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Revolut Blog",
+      "tier": 2,
+      "type": "rss",
+      "url": "https://blog.revolut.com/rss",
+      "institutions": [
+        "Revolut"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Finextra",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.finextra.com/rss/headlines.aspx",
+      "institutions": [
+        "JPMorgan Chase",
+        "Citigroup",
+        "HSBC",
+        "MUFG",
+        "BBVA",
+        "BNP Paribas",
+        "Nordea",
+        "SWIFT",
+        "Visa",
+        "Mastercard"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Fintech News Singapore",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://fintechnews.sg/feed/",
+      "institutions": [
+        "DBS",
+        "OCBC",
+        "UOB",
+        "Standard Chartered",
+        "MAS"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "The Asian Banker",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://theasianbanker.com/feed",
+      "institutions": [
+        "DBS",
+        "OCBC",
+        "UOB",
+        "Standard Chartered"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "PYMNTS",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.pymnts.com/feed/",
+      "institutions": [
+        "Visa",
+        "Mastercard",
+        "American Express",
+        "SWIFT",
+        "TCH"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Payments Dive",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.paymentsdive.com/feeds/news/",
+      "institutions": [
+        "SWIFT",
+        "TCH",
+        "Visa",
+        "Mastercard"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "The Paypers",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.thepaypers.com/rss/news.xml",
+      "institutions": [
+        "SWIFT",
+        "Visa",
+        "Mastercard",
+        "American Express",
+        "TCH"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Economic Times Banking",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms",
+      "institutions": [
+        "HDFC Bank",
+        "State Bank of India",
+        "IDFC FIRST Bank",
+        "Axis Bank",
+        "AU Small Finance Bank",
+        "NPCI",
+        "UPI",
+        "Bharat Bill Payment System"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Moneycontrol Business",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.moneycontrol.com/rss/business.xml",
+      "institutions": [
+        "HDFC Bank",
+        "State Bank of India",
+        "IDFC FIRST Bank",
+        "Axis Bank",
+        "AU Small Finance Bank",
+        "NPCI",
+        "UPI",
+        "Bharat Bill Payment System",
+        "IFSCA"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Sifted",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://sifted.eu/feed",
+      "institutions": [
+        "Revolut",
+        "Monzo",
+        "Nubank",
+        "Starling Bank"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "TechCrunch Fintech",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://techcrunch.com/category/fintech/feed/",
+      "institutions": [
+        "Revolut",
+        "Monzo",
+        "Nubank",
+        "Starling Bank"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "AltFi",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://www.altfi.com/feed",
+      "institutions": [
+        "Revolut",
+        "Monzo",
+        "Nubank",
+        "Starling Bank"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Inc42",
+      "tier": 3,
+      "type": "rss",
+      "url": "https://inc42.com/feed/",
+      "institutions": [
+        "PhonePe",
+        "Razorpay",
+        "Paytm",
+        "CRED"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "NewsAPI - Global Challengers",
+      "tier": 3,
+      "type": "newsapi",
+      "query": "\"{institution}\" AND (launch OR partnership OR acquisition OR regulation OR product)",
+      "institutions": [
+        "Revolut",
+        "Monzo",
+        "Nubank",
+        "Starling Bank"
+      ],
+      "daily_request_budget": 80,
+      "enabled": true
+    },
+    {
+      "name": "NewsAPI - Indian Fintechs",
+      "tier": 3,
+      "type": "newsapi",
+      "query": "\"{institution}\" AND (launch OR partnership OR acquisition OR regulation OR product)",
+      "institutions": [
+        "PhonePe",
+        "Razorpay",
+        "Paytm",
+        "CRED",
+        "IFSCA"
+      ],
+      "daily_request_budget": 80,
+      "enabled": true
+    }
+  ]
+}

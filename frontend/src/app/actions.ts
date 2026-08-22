@@ -1,8 +1,6 @@
 'use server';
 
-import fs from 'fs';
-import path from 'path';
-import * as yaml from 'js-yaml';
+import sourcesData from './sources.json';
 
 export interface SourceDefinition {
   name: string;
@@ -17,20 +15,9 @@ export interface SourceDefinition {
 
 export async function getSourcesConfig(): Promise<SourceDefinition[]> {
   try {
-    // Use a statically analyzable path so Vercel includes it in the Lambda
-    const sourcesPath = path.join(process.cwd(), 'sources.yaml');
-    
-    if (!fs.existsSync(sourcesPath)) {
-      console.warn("Could not find sources.yaml at", sourcesPath);
-      return [];
-    }
-
-    const fileContents = fs.readFileSync(sourcesPath, 'utf8');
-
-    const doc = yaml.load(fileContents) as { sources: SourceDefinition[] };
-    return doc.sources || [];
+    return sourcesData.sources as SourceDefinition[];
   } catch (e) {
-    console.error("Error reading sources.yaml", e);
+    console.error("Error loading sources configuration", e);
     return [];
   }
 }
