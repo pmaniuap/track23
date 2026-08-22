@@ -95,69 +95,68 @@ sources:
     institutions: ["BBVA"]
     enabled: true
 
-  # Secondary Aggregators
-  - name: "Finextra"
+  - name: "Revolut Blog"
     tier: 2
+    type: "rss"
+    url: "https://blog.revolut.com/rss"
+    institutions: ["Revolut"]
+    enabled: true
+
+  # --- Tier 3: General News & Aggregators ---
+  - name: "Finextra"
+    tier: 3
     type: "rss"
     url: "https://www.finextra.com/rss/headlines.aspx"
     institutions: ["JPMorgan Chase", "Citigroup", "HSBC", "MUFG", "BBVA", "BNP Paribas", "Nordea", "SWIFT", "Visa", "Mastercard"]
     enabled: true
 
   - name: "Fintech News Singapore"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://fintechnews.sg/feed/"
     institutions: ["DBS", "OCBC", "UOB", "Standard Chartered", "MAS"]
     enabled: true
 
   - name: "The Asian Banker"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://theasianbanker.com/feed"
     institutions: ["DBS", "OCBC", "UOB", "Standard Chartered"]
     enabled: true
 
   - name: "PYMNTS"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://www.pymnts.com/feed/"
     institutions: ["Visa", "Mastercard", "American Express", "SWIFT", "TCH"]
     enabled: true
 
   - name: "Payments Dive"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://www.paymentsdive.com/feeds/news/"
     institutions: ["SWIFT", "TCH", "Visa", "Mastercard"]
     enabled: true
 
   - name: "The Paypers"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://www.thepaypers.com/rss/news.xml"
     institutions: ["SWIFT", "Visa", "Mastercard", "American Express", "TCH"]
     enabled: true
 
   - name: "Economic Times Banking"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms"
     institutions: ["HDFC Bank", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System"]
     enabled: true
 
   - name: "Moneycontrol Business"
-    tier: 2
+    tier: 3
     type: "rss"
     url: "https://www.moneycontrol.com/rss/business.xml"
     institutions: ["HDFC Bank", "State Bank of India", "IDFC FIRST Bank", "Axis Bank", "AU Small Finance Bank", "NPCI", "UPI", "Bharat Bill Payment System", "IFSCA"]
-    enabled: true
-
-  # --- Tier 3: Challengers (Neobanks) & Aggregators ---
-  - name: "Revolut Blog"
-    tier: 3
-    type: "rss"
-    url: "https://blog.revolut.com/rss"
-    institutions: ["Revolut"]
     enabled: true
 
   - name: "Sifted"
