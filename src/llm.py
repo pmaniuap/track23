@@ -1,5 +1,7 @@
 # src/llm.py
 import os
+import re
+import time
 from typing import Optional, get_args
 from dotenv import load_dotenv
 from src.models import LLMExtraction, MarketSignal, RawArticle, INSTITUTIONS, EVENT_TYPES, GateDecision
@@ -78,13 +80,43 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
 
             # --- STAGE 2: Heavy Extraction ---
             for model in self.groq_models:
-                try:
-                    extraction: LLMExtraction = self._groq_client.chat.completions.create(
-                        model=model,
-                        response_model=LLMExtraction,
-                        messages=[{"role": "user", "content": extraction_prompt}],
-                    )
-                    
+                success = False
+                extraction = None
+                
+                for attempt in range(2):
+                    try:
+                        extraction = self._groq_client.chat.completions.create(
+                            model=model,
+                            response_model=LLMExtraction,
+                            messages=[{"role": "user", "content": extraction_prompt}],
+                        )
+                        success = True
+                        break
+                    except Exception as e:
+                        error_msg = str(e)
+                        if "429" in error_msg or "rate_limit_exceeded" in error_msg:
+                            if "per day" in error_msg.lower() or "tpd" in error_msg.lower() or "rpd" in error_msg.lower():
+                                print(f"  [Groq Rate Limit] Model {model} hit DAILY limit. Trying next model...")
+                                break
+                            
+                            match = re.search(r"try again in ([\d\.]+)s", error_msg)
+                            if match:
+                                wait_time = float(match.group(1))
+                                if wait_time <= 10.0:
+                                    print(f"  [Groq Rate Limit] Model {model} hit TPM limit. Waiting {wait_time:.2f}s before retry...")
+                                    time.sleep(wait_time + 0.1)
+                                    continue
+                                else:
+                                    print(f"  [Groq Rate Limit] Model {model} wait time too long ({wait_time}s). Trying next model...")
+                                    break
+                            else:
+                                print(f"  [Groq Rate Limit] Model {model} rate limited. Trying next model...")
+                                break
+                        else:
+                            print(f"  [LLM Error] API error on '{article.raw_title[:60]}': {e}")
+                            raise RuntimeError(f"LLM API Error: {e}")
+
+                if success:
                     if extraction.institution == "Other / Unmonitored":
                         print(f"  [LLM Note] Article '{article.raw_title[:60]}' tagged as Unmonitored.")
                         return None
@@ -100,13 +132,6 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
                         published_at=article.published_at,
                         raw_title=article.raw_title,
                     )
-                except Exception as e:
-                    if "429" in str(e) or "rate_limit_exceeded" in str(e):
-                        print(f"  [Groq Rate Limit] Model {model} hit limit, trying next...")
-                        continue
-                    else:
-                        print(f"  [LLM Error] API error on '{article.raw_title[:60]}': {e}")
-                        raise RuntimeError(f"LLM API Error: {e}")
 
             # If it tried all models and hit rate limits for all of them:
             print("  [Groq Rate Limit] All models rate limited. Disabling Groq for remainder of run.")
