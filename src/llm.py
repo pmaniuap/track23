@@ -2,7 +2,7 @@
 import os
 from typing import Optional, get_args
 from dotenv import load_dotenv
-from src.models import LLMExtraction, MarketSignal, RawArticle, INSTITUTIONS, EVENT_TYPES
+from src.models import LLMExtraction, MarketSignal, RawArticle, INSTITUTIONS, EVENT_TYPES, GateDecision
 
 load_dotenv()
 
@@ -13,7 +13,7 @@ class LLMClient:
     def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self._groq_client = None
-        self.groq_models = ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"]
+        self.groq_models = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
         self.groq_disabled = False
 
         if self.api_key:
@@ -31,7 +31,16 @@ class LLMClient:
         if self.groq_disabled:
             return self._generate_fallback_signal(article)
 
-        prompt = f"""
+        gate_prompt = f"""
+You are a fast classification gate.
+Determine if the following article specifically details a corporate, technology, or regulatory event for a monitored institution.
+If it is a general stock market roundup, listicle, or irrelevant, return False.
+Title: {article.raw_title}
+Content: {article.content[:800]}
+Monitored Institutions: {list(get_args(INSTITUTIONS))}
+"""
+
+        extraction_prompt = f"""
 You are a senior financial market intelligence analyst tracking strategic pivots, product launches, tech acquisitions, and regulatory actions across target financial institutions and networks.
 
 Analyze the following article and extract structured intelligence.
@@ -53,12 +62,27 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
 """
 
         if self._groq_client:
+            gate_model = "openai/gpt-oss-20b"
+            # --- STAGE 1: Fast Classification Gate ---
+            try:
+                gate_decision: GateDecision = self._groq_client.chat.completions.create(
+                    model=gate_model,
+                    response_model=GateDecision,
+                    messages=[{"role": "user", "content": gate_prompt}],
+                )
+                if not gate_decision.is_relevant:
+                    print(f"  [LLM Gate] Article '{article.raw_title[:60]}' rejected at Stage 1.")
+                    return None
+            except Exception as e:
+                print(f"  [LLM Gate Warning] Stage 1 failed on '{article.raw_title[:60]}' ({e}). Proceeding to Stage 2 safely.")
+
+            # --- STAGE 2: Heavy Extraction ---
             for model in self.groq_models:
                 try:
                     extraction: LLMExtraction = self._groq_client.chat.completions.create(
                         model=model,
                         response_model=LLMExtraction,
-                        messages=[{"role": "user", "content": prompt}],
+                        messages=[{"role": "user", "content": extraction_prompt}],
                     )
                     
                     if extraction.institution == "Other / Unmonitored":
@@ -81,8 +105,8 @@ SYSTEM CONSTRAINTS & DISAMBIGUATION RULES:
                         print(f"  [Groq Rate Limit] Model {model} hit limit, trying next...")
                         continue
                     else:
-                        print(f"  [LLM Note] Article '{article.raw_title[:60]}' skipped ({e})")
-                        return None
+                        print(f"  [LLM Error] API error on '{article.raw_title[:60]}': {e}")
+                        raise RuntimeError(f"LLM API Error: {e}")
 
             # If it tried all models and hit rate limits for all of them:
             print("  [Groq Rate Limit] All models rate limited. Disabling Groq for remainder of run.")

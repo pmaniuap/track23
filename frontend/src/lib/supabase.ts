@@ -86,7 +86,7 @@ export async function fetchPipelineRuns(): Promise<{
       .from('pipeline_runs')
       .select('*')
       .order('run_at', { ascending: false })
-      .limit(10);
+      .limit(500);
 
     if (error || !data || data.length === 0) {
       return { data: SAMPLE_RUNS, isLive: false };

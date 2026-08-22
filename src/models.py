@@ -123,3 +123,6 @@ class PipelineRunRecord(BaseModel):
     articles_written: int = 0
     status: Literal["success", "partial", "failed"] = "success"
     error_message: Optional[str] = None
+
+class GateDecision(BaseModel):
+    is_relevant: bool = Field(description="True if the article specifically details a corporate, tech, or regulatory event for a monitored institution. False if irrelevant or a general roundup.")

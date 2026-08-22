@@ -3,6 +3,7 @@
 import React from 'react';
 import { PipelineRun } from '../types';
 import { CheckCircle2, AlertTriangle, Clock, Database, Filter } from 'lucide-react';
+import Link from 'next/link';
 
 interface PipelineHealthBannerProps {
   runs: PipelineRun[];
@@ -69,6 +70,10 @@ export const PipelineHealthBanner: React.FC<PipelineHealthBannerProps> = ({ runs
             <span>Net New Signals:</span>
             <strong className="text-slate-900">{totalWritten}</strong>
           </div>
+          <div className="h-4 w-px bg-slate-200 mx-1 hidden sm:block"></div>
+          <Link href="/health" className="text-blue-600 hover:text-blue-700 font-medium hover:underline flex items-center">
+            View Health Dashboard <span className="ml-1">→</span>
+          </Link>
         </div>
       </div>
     </div>
