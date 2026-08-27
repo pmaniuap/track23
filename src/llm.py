@@ -33,6 +33,14 @@ class LLMClient:
         if self.groq_disabled:
             return self._generate_fallback_signal(article)
 
+        title_lower = article.raw_title.lower()
+        if "rbi imposes monetary penalty" in title_lower:
+            # Check if it affects any of our specifically monitored banks (ignore RBI itself here)
+            monitored_entities = [m.lower() for m in get_args(INSTITUTIONS) if m not in ("RBI", "Other / Unmonitored")]
+            if not any(entity in title_lower for entity in monitored_entities):
+                print(f"  [Pre-Filter] Rejected routine RBI penalty on unmonitored bank: '{article.raw_title[:60]}'")
+                return None
+
         gate_prompt = f"""
 You are a fast classification gate.
 Determine if the following article specifically details a corporate, technology, or regulatory event for a monitored institution.
