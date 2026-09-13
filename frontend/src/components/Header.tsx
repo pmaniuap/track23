@@ -1,64 +1,184 @@
 'use client';
 
-import React from 'react';
-import { Activity, RefreshCw, Layers } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Activity, RefreshCw, Layers, Download, ChevronDown, FileText, TableIcon } from 'lucide-react';
+import { Toast } from './Toast';
 
 interface HeaderProps {
   totalSignals: number;
   isLive: boolean;
   isRefreshing: boolean;
+  isExporting: boolean;
   onRefresh: () => void;
+  onExport: (format: 'csv' | 'pdf') => void | Promise<void>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   totalSignals,
   isLive,
   isRefreshing,
+  isExporting,
   onRefresh,
+  onExport,
 }) => {
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+  const [toastOpen, setToastOpen] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (exportRef.current && !exportRef.current.contains(e.target as Node)) {
+        setExportOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleExportOption = async (format: 'csv' | 'pdf') => {
+    setExportError(null);
+
+    if (totalSignals > 100) {
+      setExportOpen(false);
+      setToastOpen(true);
+      return;
+    }
+
+    try {
+      await onExport(format);
+      setExportOpen(false);
+    } catch (err: any) {
+      const msg: string = err?.message ?? '';
+      if (msg.startsWith('TOO_MANY_SIGNALS')) {
+        setExportOpen(false);
+        setToastOpen(true);
+      } else {
+        setExportError(msg || 'Export failed. Please try again.');
+      }
+    }
+  };
+
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-4 z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 min-h-[4.5rem] flex flex-wrap items-center justify-between gap-4">
-        {/* Brand & Title */}
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm">
-            <Activity className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold text-slate-900 leading-tight">
-              Financial Market Intelligence Radar
-            </h1>
-            <p className="text-xs text-slate-500 font-medium">
-              Tracking 38 institutes
-            </p>
-          </div>
-        </div>
-
-        {/* Status Indicators & Refresh */}
-        <div className="flex items-center space-x-4">
-          {/* Signal Counter */}
-          <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 whitespace-nowrap">
-            <Layers className="w-3.5 h-3.5 text-slate-500" />
-            <span className="font-semibold text-slate-900">{totalSignals}</span>
-            <span>Total Historical Signals</span>
+    <>
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 min-h-[4.5rem] flex items-center justify-between gap-4">
+          {/* Brand & Title */}
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm">
+              <Activity className="w-5 h-5" />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-slate-900 leading-tight">
+                Financial Market Intelligence Radar
+              </h1>
+              <p className="text-xs text-slate-500 font-medium">
+                Tracking 38 institutes
+              </p>
+            </div>
           </div>
 
-          {/* Refresh Button */}
-          <button
-            onClick={onRefresh}
-            disabled={isRefreshing}
-            className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap"
-            title="Refresh signals from pipeline"
-          >
-            <RefreshCw
-              className={`w-3.5 h-3.5 text-slate-600 ${
-                isRefreshing ? 'animate-spin' : ''
-              }`}
-            />
-            <span>Refresh Data</span>
-          </button>
+          {/* Status Indicators & Refresh */}
+          <div className="flex items-center space-x-4">
+            {/* Signal Counter */}
+            <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 whitespace-nowrap">
+              <Layers className="w-3.5 h-3.5 text-slate-500" />
+              <span className="font-semibold text-slate-900">{totalSignals}</span>
+              <span>Total Historical Signals</span>
+            </div>
+
+            {/* Export Button (Option A Badge - Matching Prototype) */}
+            <div className="export-wrap shrink-0" ref={exportRef}>
+              <button
+                id="export-button"
+                onClick={() => {
+                  setExportOpen((prev) => !prev);
+                  setExportError(null);
+                }}
+                disabled={isExporting || totalSignals === 0}
+                className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap"
+                title="Export visible signals"
+              >
+                {isExporting ? (
+                  <span className="w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin inline-block" />
+                ) : (
+                  <Download className="w-3.5 h-3.5 text-slate-600" />
+                )}
+                <span>Export</span>
+                
+                {/* Option A Badge — 1:1 match with Prototype */}
+                <span className={`export-badge ${totalSignals > 100 ? 'warn' : ''}`}>
+                  {totalSignals}
+                </span>
+
+                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-150 ${exportOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Export Dropdown — Exact 1:1 match with Prototype */}
+              {exportOpen && (
+                <div className="export-dropdown">
+                  <div className="dropdown-inner">
+                    <button
+                      id="export-csv-option"
+                      onClick={() => handleExportOption('csv')}
+                      className="dropdown-item"
+                    >
+                      <div className="icon">
+                        <TableIcon />
+                      </div>
+                      <div>
+                        <div className="label">Download CSV</div>
+                        <div className="sub">Spreadsheet with summary</div>
+                      </div>
+                    </button>
+
+                    <div className="dropdown-divider" />
+
+                    <button
+                      id="export-pdf-option"
+                      onClick={() => handleExportOption('pdf')}
+                      className="dropdown-item"
+                    >
+                      <div className="icon">
+                        <FileText />
+                      </div>
+                      <div>
+                        <div className="label">Preview PDF</div>
+                        <div className="sub">Print-ready document</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Refresh Button */}
+            <button
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap shadow-sm hover:shadow transition-all"
+              title="Refresh signals from pipeline"
+            >
+              <RefreshCw
+                className={`w-3.5 h-3.5 text-slate-600 ${
+                  isRefreshing ? 'animate-spin' : ''
+                }`}
+              />
+              <span>Refresh Data</span>
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Toast Notification — Option 2 Apple Light Pill */}
+      <Toast
+        isOpen={toastOpen}
+        totalSignals={totalSignals}
+        onClose={() => setToastOpen(false)}
+      />
+    </>
   );
 };
+
+

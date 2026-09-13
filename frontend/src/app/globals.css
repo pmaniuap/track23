@@ -259,8 +259,80 @@ header {
 .bg-slate-50 { background-color: #f8fafc; }
 .bg-slate-100 { background-color: #f1f5f9; }
 .bg-blue-600 { background-color: #2563eb; }
+.bg-amber-600 { background-color: #d97706; }
 .bg-emerald-500 { background-color: #10b981; }
 .bg-amber-400 { background-color: #fbbf24; }
+
+/* Option A Export Badge */
+.export-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+.export-badge.warn {
+  background-color: #d97706;
+}
+
+/* Export Dropdown — Exact match with prototype */
+.export-wrap { position: relative; }
+.export-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 224px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  z-index: 50;
+}
+.dropdown-inner { padding: 4px; }
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background 0.1s;
+}
+.dropdown-item:hover { background: #f8fafc; }
+.dropdown-item .icon {
+  width: 32px;
+  height: 32px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dropdown-item .icon svg {
+  width: 15px;
+  height: 15px;
+  stroke: #334155;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.dropdown-item .label { font-size: 12px; font-weight: 600; color: #0f172a; line-height: 1.2; text-align: left; }
+.dropdown-item .sub { font-size: 11px; color: #64748b; margin-top: 1px; line-height: 1.2; text-align: left; }
+.dropdown-divider { height: 1px; background: #f1f5f9; margin: 2px 4px; }
 
 /* Badges */
 .badge-tier-1 { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
@@ -274,6 +346,75 @@ header {
 .badge-event-default { background-color: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
 
 /* Links */
+/* Option 2 Toast — Apple HIG Light Pill (Bottom Centered Floating) */
+.toast-v2 {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 9999;
+  min-width: 380px;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 100px;
+  padding: 10px 18px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0f172a;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast-v2.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.toast-v2 .badge-pill {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.toast-v2 .text-block {
+  flex: 1;
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.3;
+}
+.toast-v2 .text-block strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+.toast-v2 .close-pill {
+  background: #f1f5f9;
+  border: none;
+  color: #64748b;
+  width: 22px;
+  height: 22px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+.toast-v2 .close-pill:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
 a {
   color: inherit;
   text-decoration: none;

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PROTOTYPE — Export Signal Count Placement</title>
+  <style>
+    /* ── PROTOTYPE MARKER ── */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Variant switcher bar */
+    .switcher {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      border-radius: 100px;
+      padding: 6px 8px;
+      display: flex;
+      gap: 4px;
+      z-index: 9999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+    .switcher button {
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .switcher button.active {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .variant { display: none; }
+    .variant.active { display: block; }
+
+    /* ── Shared header chrome ── */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 72px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 36px; height: 36px;
+      background: #2563eb;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 16px; flex-shrink: 0;
+    }
+    .brand h1 { font-size: 17px; font-weight: 600; color: #0f172a; margin: 0; }
+    .brand p { font-size: 11px; color: #64748b; margin: 0; font-weight: 500; }
+
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    /* Shared button style */
+    .hig-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 12px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.12s;
+    }
+    .hig-btn:hover { background: #f8fafc; }
+    .hig-btn svg { width: 14px; height: 14px; stroke: #475569; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Counter chip */
+    .counter-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 12px;
+      color: #475569;
+      white-space: nowrap;
+    }
+    .counter-chip strong { color: #0f172a; font-weight: 700; }
+
+    /* Export dropdown */
+    .export-wrap { position: relative; }
+    .export-dropdown {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 224px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.1);
+      overflow: hidden;
+      z-index: 50;
+    }
+    .dropdown-inner { padding: 4px; }
+    .dropdown-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .dropdown-item:hover { background: #f8fafc; }
+    .dropdown-item .icon {
+      width: 32px; height: 32px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .dropdown-item .icon svg { width: 15px; height: 15px; stroke: #334155; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .dropdown-item .label { font-size: 12px; font-weight: 600; color: #0f172a; }
+    .dropdown-item .sub { font-size: 11px; color: #64748b; margin-top: 1px; }
+    .dropdown-divider { height: 1px; background: #f1f5f9; margin: 2px 4px; }
+
+    /* Variant A — badge on Export button */
+    .export-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 20px; height: 18px;
+      padding: 0 5px;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .export-badge.warn { background: #d97706; }
+
+    /* Variant B — inline pill below filter bar */
+    .filter-bar-mock {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 32px;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      padding: 5px 11px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 100px;
+      font-size: 11px;
+      color: #334155;
+      font-weight: 500;
+    }
+    .export-count-pill {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .export-count-pill.ok { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+    .export-count-pill.warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .export-count-pill svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    /* Variant C — inline text next to Export button label */
+    .export-count-inline {
+      font-size: 11px;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-left: 2px;
+    }
+    .export-count-inline.warn { color: #d97706; }
+
+    /* Page body */
+    .page-body {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .signal-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .signal-card .institution { font-size: 11px; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .signal-card .title { font-size: 13px; font-weight: 600; color: #0f172a; line-height: 1.4; }
+    .signal-card .event { display: inline-block; margin-top: 8px; font-size: 10px; padding: 3px 8px; background: #f1f5f9; border-radius: 4px; color: #475569; font-weight: 600; }
+
+    /* Switcher label */
+    .variant-label {
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      z-index: 9999;
+      font-family: monospace;
+    }
+
+    /* Scenario controls */
+    .scenario-bar {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 8px 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .scenario-bar span { font-size: 11px; color: #64748b; font-weight: 500; }
+    .scenario-btn {
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+    }
+    .scenario-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+  </style>
+</head>
+<body>
+
+<div class="variant-label" id="variant-label">Variant A</div>
+
+<!-- ══════════════════════════════════════════
+     VARIANT A — Badge count on Export button
+     Question: does a numeric badge on the button give enough context without cluttering the header?
+     ══════════════════════════════════════════ -->
+<div class="variant active" id="variant-a">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h1>Financial Market Intelligence Radar</h1>
+          <p>Tracking 38 institutes</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="counter-chip">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <strong id="a-total">47</strong> Total Historical Signals
+        </div>
+        <div class="export-wrap">
+          <button class="hig-btn" id="a-export-btn" onclick="toggleDropdown('a')">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+            <span class="export-badge" id="a-badge">47</span>
+            <svg viewBox="0 0 24 24" style="stroke:#94a3b8"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="export-dropdown" id="a-dropdown" style="display:none">
+            <div class="dropdown-inner">
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+                <div><div class="label">Download CSV</div><div class="sub">Spreadsheet with summary</div></div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div><div class="label">Preview PDF</div><div class="sub">Print-ready document</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="hig-btn">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Refresh Data
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="scenario-bar">
+    <span>Scenario:</span>
+    <button class="scenario-btn active" onclick="setCount('a', 47, false)">47 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('a', 83, false)">83 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('a', 127, true)">127 signals (warning)</button>
+  </div>
+  <div class="page-body"><div class="signal-grid" id="a-cards"></div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VARIANT B — Count pill at the right end of filter bar
+     Question: does anchoring the count to the filter context feel more natural?
+     ══════════════════════════════════════════ -->
+<div class="variant" id="variant-b">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h1>Financial Market Intelligence Radar</h1>
+          <p>Tracking 38 institutes</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="counter-chip">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <strong id="b-total">47</strong> Total Historical Signals
+        </div>
+        <div class="export-wrap">
+          <button class="hig-btn" id="b-export-btn" onclick="toggleDropdown('b')">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+            <svg viewBox="0 0 24 24" style="stroke:#94a3b8"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="export-dropdown" id="b-dropdown" style="display:none">
+            <div class="dropdown-inner">
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+                <div><div class="label">Download CSV</div><div class="sub">Spreadsheet with summary</div></div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div><div class="label">Preview PDF</div><div class="sub">Print-ready document</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="hig-btn">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Refresh Data
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- Filter bar with count pill on the right -->
+  <div style="background:#fff; border-bottom: 1px solid #e2e8f0;">
+    <div class="filter-bar-mock">
+      <div class="filter-chip">🔍 Search</div>
+      <div class="filter-chip">Institution ▾</div>
+      <div class="filter-chip">Event Type ▾</div>
+      <div class="filter-chip">Region ▾</div>
+      <div class="export-count-pill ok" id="b-pill">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="b-pill-text">47 ready to export</span>
+      </div>
+    </div>
+  </div>
+  <div class="scenario-bar">
+    <span>Scenario:</span>
+    <button class="scenario-btn active" onclick="setCount('b', 47, false)">47 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('b', 83, false)">83 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('b', 127, true)">127 signals (warning)</button>
+  </div>
+  <div class="page-body"><div class="signal-grid" id="b-cards"></div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VARIANT C — Count as muted inline text next to Export label
+     Question: is the subtlest approach (just text) clear enough, or does it get lost?
+     ══════════════════════════════════════════ -->
+<div class="variant" id="variant-c">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h1>Financial Market Intelligence Radar</h1>
+          <p>Tracking 38 institutes</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="counter-chip">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <strong id="c-total">47</strong> Total Historical Signals
+        </div>
+        <div class="export-wrap">
+          <button class="hig-btn" id="c-export-btn" onclick="toggleDropdown('c')">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export <span class="export-count-inline" id="c-inline">(47)</span>
+            <svg viewBox="0 0 24 24" style="stroke:#94a3b8"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="export-dropdown" id="c-dropdown" style="display:none">
+            <div class="dropdown-inner">
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+                <div><div class="label">Download CSV</div><div class="sub">Spreadsheet with summary</div></div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item">
+                <div class="icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div><div class="label">Preview PDF</div><div class="sub">Print-ready document</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="hig-btn">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Refresh Data
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="scenario-bar">
+    <span>Scenario:</span>
+    <button class="scenario-btn active" onclick="setCount('c', 47, false)">47 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('c', 83, false)">83 signals (ok)</button>
+    <button class="scenario-btn" onclick="setCount('c', 127, true)">127 signals (warning)</button>
+  </div>
+  <div class="page-body"><div class="signal-grid" id="c-cards"></div></div>
+</div>
+
+<!-- ── Variant Switcher ── -->
+<div class="switcher">
+  <button class="active" onclick="switchVariant('a', this)">A · Badge on button</button>
+  <button onclick="switchVariant('b', this)">B · Pill in filter bar</button>
+  <button onclick="switchVariant('c', this)">C · Inline text count</button>
+</div>
+
+<script>
+  // ── Sample cards ──
+  const CARDS = [
+    { institution: 'Revolut', title: 'Revolut launches Pay Later across 12 European markets', event: 'Product Launch' },
+    { institution: 'HDFC Bank', title: 'HDFC Bank partners with NPCI for UPI Lite X rollout', event: 'Partnership' },
+    { institution: 'FCA', title: 'FCA publishes final rules on operational resilience', event: 'Regulatory Action' },
+    { institution: 'Mastercard', title: 'Mastercard acquires Recorded Future for $2.65B', event: 'Investment/M&A' },
+    { institution: 'DBS', title: 'DBS Bank rolls out AI-powered treasury management', event: 'Technology Adoption' },
+    { institution: 'Monzo', title: 'Monzo appoints new CFO ahead of IPO preparation', event: 'KMP Hire' },
+  ];
+
+  function renderCards(containerId, count) {
+    const el = document.getElementById(containerId);
+    const items = [];
+    for (let i = 0; i < Math.min(count, 12); i++) {
+      const c = CARDS[i % CARDS.length];
+      items.push(`<div class="signal-card">
+        <div class="institution">${c.institution}</div>
+        <div class="title">${c.title}</div>
+        <div class="event">${c.event}</div>
+      </div>`);
+    }
+    el.innerHTML = items.join('');
+  }
+
+  // Initial render
+  ['a','b','c'].forEach(v => renderCards(v + '-cards', 6));
+
+  function switchVariant(id, btn) {
+    document.querySelectorAll('.variant').forEach(el => el.classList.remove('active'));
+    document.getElementById('variant-' + id).classList.add('active');
+    document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('variant-label').textContent = 'Variant ' + id.toUpperCase();
+    // close any open dropdowns
+    ['a','b','c'].forEach(v => {
+      const d = document.getElementById(v + '-dropdown');
+      if (d) d.style.display = 'none';
+    });
+  }
+
+  function toggleDropdown(variant) {
+    const d = document.getElementById(variant + '-dropdown');
+    d.style.display = d.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Click outside closes dropdowns
+  document.addEventListener('click', e => {
+    ['a','b','c'].forEach(v => {
+      const wrap = document.getElementById(v + '-export-btn');
+      const drop = document.getElementById(v + '-dropdown');
+      if (drop && wrap && !wrap.contains(e.target) && !drop.contains(e.target)) {
+        drop.style.display = 'none';
+      }
+    });
+  });
+
+  function setCount(variant, count, isWarn) {
+    // Update scenario buttons
+    document.querySelectorAll(`#variant-${variant} .scenario-btn`).forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    renderCards(variant + '-cards', Math.min(count, 12));
+
+    if (variant === 'a') {
+      document.getElementById('a-total').textContent = count;
+      const badge = document.getElementById('a-badge');
+      badge.textContent = count;
+      badge.className = 'export-badge' + (isWarn ? ' warn' : '');
+    }
+    if (variant === 'b') {
+      document.getElementById('b-total').textContent = count;
+      const pill = document.getElementById('b-pill');
+      const text = document.getElementById('b-pill-text');
+      pill.className = 'export-count-pill ' + (isWarn ? 'warn' : 'ok');
+      if (isWarn) {
+        pill.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+        text.textContent = count + ' — too many, filter down';
+      } else {
+        pill.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+        text.textContent = count + ' ready to export';
+      }
+    }
+    if (variant === 'c') {
+      document.getElementById('c-total').textContent = count;
+      const inline = document.getElementById('c-inline');
+      inline.textContent = '(' + count + ')';
+      inline.className = 'export-count-inline' + (isWarn ? ' warn' : '');
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { FilterState, MarketSignal, PipelineRun, getInstitutionCategory, getInstitutionRegion } from '../types';
 import { fetchMarketSignals, fetchPipelineRuns } from '../lib/supabase';
+import { downloadCSV, openPDFPreview } from '../lib/exportUtils';
 import { Header } from '../components/Header';
 import { PipelineHealthBanner } from '../components/PipelineHealthBanner';
 import { FilterBar } from '../components/FilterBar';
@@ -25,6 +26,7 @@ export default function DashboardPage() {
   const [isLive, setIsLive] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isExporting, setIsExporting] = useState<boolean>(false);
   const [filters, setFilters] = useState<FilterState>(initialFilters);
 
   const loadData = async () => {
@@ -140,6 +142,21 @@ export default function DashboardPage() {
       });
   }, [signals, filters]);
 
+  const handleExport = useCallback(async (format: 'csv' | 'pdf') => {
+    if (isExporting || filteredSignals.length === 0) return;
+    setIsExporting(true);
+    try {
+      if (format === 'csv') {
+        await downloadCSV(filteredSignals, filters);
+      } else {
+        await openPDFPreview(filteredSignals, filters);
+      }
+    } finally {
+      setIsExporting(false);
+    }
+  }, [filteredSignals, filters, isExporting]);
+
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       {/* Top Bar Header */}
@@ -147,7 +164,9 @@ export default function DashboardPage() {
         totalSignals={filteredSignals.length}
         isLive={isLive}
         isRefreshing={isRefreshing}
+        isExporting={isExporting}
         onRefresh={loadData}
+        onExport={handleExport}
       />
 
       {/* Pipeline Health Banner */}
