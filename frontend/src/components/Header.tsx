@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { Activity, RefreshCw, Layers, Download, ChevronDown, FileText, TableIcon } from 'lucide-react';
+import { Activity, RefreshCw, Download, ChevronDown, FileText, TableIcon } from 'lucide-react';
 import { Toast } from './Toast';
 
 interface HeaderProps {
@@ -81,13 +81,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Status Indicators & Refresh */}
           <div className="flex items-center space-x-4">
-            {/* Signal Counter */}
-            <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 whitespace-nowrap">
-              <Layers className="w-3.5 h-3.5 text-slate-500" />
-              <span className="font-semibold text-slate-900">{totalSignals}</span>
-              <span>Total Historical Signals</span>
-            </div>
-
             {/* Export Button (Option A Badge - Matching Prototype) */}
             <div className="export-wrap shrink-0" ref={exportRef}>
               <button
