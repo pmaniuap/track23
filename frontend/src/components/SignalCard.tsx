@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { MarketSignal, getInstitutionCategory } from '../types';
-import { ExternalLink, Cpu, Building2, Calendar } from 'lucide-react';
+import { ExternalLink, Cpu, Building2, Calendar, Star } from 'lucide-react';
 
 interface SignalCardProps {
   signal: MarketSignal;
+  onToggleStar?: (id: string, currentStatus: boolean) => void;
 }
 
-export const SignalCard: React.FC<SignalCardProps> = ({ signal }) => {
+export const SignalCard: React.FC<SignalCardProps> = ({ signal, onToggleStar }) => {
   const formattedDate = new Date(signal.published_at).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -51,15 +52,22 @@ export const SignalCard: React.FC<SignalCardProps> = ({ signal }) => {
     <article className="hig-card p-5 flex flex-col justify-between h-full bg-white">
       <div>
         {/* Top Badges Row */}
-        <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
-          <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-900 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
-              <Building2 className="w-3.5 h-3.5 text-blue-600" />
-              <span>{signal.institution}</span>
-            </span>
-            {getEventBadge(signal.event_type)}
-          </div>
-          {getCategoryBadge(category)}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-900 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+            <Building2 className="w-3.5 h-3.5 text-blue-600" />
+            <span>{signal.institution}</span>
+          </span>
+          <button
+            onClick={() => onToggleStar && onToggleStar(signal.id, !!signal.is_starred)}
+            className="text-slate-400 hover:text-yellow-500 transition-colors cursor-pointer"
+            title={signal.is_starred ? 'Remove Star' : 'Star this item'}
+          >
+            <Star
+              className={`w-5 h-5 hover:fill-yellow-100 ${
+                signal.is_starred ? 'fill-current text-yellow-500' : ''
+              }`}
+            />
+          </button>
         </div>
 
         {/* Article Raw Title */}
@@ -79,20 +87,25 @@ export const SignalCard: React.FC<SignalCardProps> = ({ signal }) => {
           </p>
         </div>
 
-        {/* Technologies List */}
-        {signal.technologies && signal.technologies.length > 0 && (
-          <div className="flex items-center flex-wrap gap-1.5 mt-3 mb-2">
-            <Cpu className="w-3.5 h-3.5 text-slate-400 mr-1" />
-            {signal.technologies.map((tech, idx) => (
-              <span
-                key={idx}
-                className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200 font-mono"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* Tags Row */}
+        <div className="flex items-center flex-wrap gap-1.5 mt-3 mb-2">
+          {getEventBadge(signal.event_type)}
+          {getCategoryBadge(category)}
+          {signal.technologies && signal.technologies.length > 0 && (
+            <>
+              <span className="text-slate-300 mx-1 text-xs">•</span>
+              <Cpu className="w-3 h-3 text-slate-400 ml-0.5" />
+              {signal.technologies.map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200 font-mono"
+                >
+                  {tech}
+                </span>
+              ))}
+            </>
+          )}
+        </div>
       </div>
 
       {/* Card Footer */}

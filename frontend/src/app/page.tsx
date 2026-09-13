@@ -16,6 +16,7 @@ const initialFilters: FilterState = {
   selectedCategory: '',
   selectedRegion: 'All',
   sortBy: 'latest',
+  showStarredOnly: false,
 };
 
 export default function DashboardPage() {
@@ -56,9 +57,36 @@ export default function DashboardPage() {
     setFilters(initialFilters);
   };
 
+  const handleToggleStar = async (id: string, currentStatus: boolean) => {
+    const newStatus = !currentStatus;
+    
+    setSignals((prev) =>
+      prev.map((sig) =>
+        sig.id === id ? { ...sig, is_starred: newStatus } : sig
+      )
+    );
+
+    if (isLive) {
+      const { toggleSignalStar } = await import('../lib/supabase');
+      const success = await toggleSignalStar(id, newStatus);
+      if (!success) {
+        setSignals((prev) =>
+          prev.map((sig) =>
+            sig.id === id ? { ...sig, is_starred: currentStatus } : sig
+          )
+        );
+      }
+    }
+  };
+
   const filteredSignals = useMemo(() => {
     return signals
       .filter((sig) => {
+        // Starred Only Filter
+        if (filters.showStarredOnly && !sig.is_starred) {
+          return false;
+        }
+
         // Keyword Search Filter
         if (filters.searchQuery.trim()) {
           const q = filters.searchQuery.toLowerCase();
@@ -142,7 +170,11 @@ export default function DashboardPage() {
         ) : filteredSignals.length > 0 ? (
           <div className="grid-signals">
             {filteredSignals.map((signal) => (
-              <SignalCard key={signal.id} signal={signal} />
+              <SignalCard 
+                key={signal.id} 
+                signal={signal} 
+                onToggleStar={handleToggleStar}
+              />
             ))}
           </div>
         ) : (

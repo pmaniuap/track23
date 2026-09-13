@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FilterState, EventType, InstitutionName, InstitutionCategory } from '../types';
-import { Search, RotateCcw } from 'lucide-react';
+import { Search, RotateCcw, Star } from 'lucide-react';
 
 interface FilterBarProps {
   filters: FilterState;
@@ -122,15 +122,30 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <button
                 key={region}
                 onClick={() => onFilterChange({ selectedRegion: region })}
-                className={`px-3 py-1.5 text-xs rounded-md font-medium transition-all ${
+                className={`px-3 py-1.5 text-xs rounded-md font-medium transition-all shadow-sm ${
                   filters.selectedRegion === region
-                    ? 'bg-white text-slate-900 border border-slate-300 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-600 border border-transparent bg-transparent'
+                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
                 {region === 'All' ? 'All Regions' : region === 'Indian' ? '🇮🇳 Indian' : '🌐 International'}
               </button>
             ))}
+          </div>
+
+          {/* Starred Filter */}
+          <div className="flex items-center">
+            <button
+              onClick={() => onFilterChange({ showStarredOnly: !filters.showStarredOnly })}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md font-medium transition-all shadow-sm ${
+                filters.showStarredOnly
+                  ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+              }`}
+            >
+              <Star className={`w-3.5 h-3.5 ${filters.showStarredOnly ? 'fill-yellow-500 text-yellow-500' : ''}`} />
+              Starred
+            </button>
           </div>
 
           {/* Category Filter */}

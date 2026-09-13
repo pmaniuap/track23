@@ -301,3 +301,27 @@ a:hover {
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Missing Tailwind Utilities for Starring & Filter Chips */
+.fill-current { fill: currentColor; }
+.fill-yellow-500 { fill: #eab308; }
+.fill-yellow-400 { fill: #facc15; }
+.hover\:fill-yellow-100:hover { fill: #fef9c3; }
+.text-yellow-500 { color: #eab308; }
+.text-yellow-700 { color: #a16207; }
+
+.bg-blue-50 { background-color: #eff6ff; }
+.border-blue-200 { border-color: #bfdbfe; }
+.bg-yellow-50 { background-color: #fefce8; }
+.border-yellow-200 { border-color: #fef08a; }
+
+.hover\:border-slate-300:hover { border-color: #cbd5e1; }
+.hover\:bg-slate-50:hover { background-color: #f8fafc; }
+.hover\:text-yellow-500:hover { color: #eab308; }
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.cursor-pointer { cursor: pointer; }
+.transition-colors { 
+  transition-property: color, background-color, border-color, fill, stroke; 
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
+  transition-duration: 150ms; 
+}

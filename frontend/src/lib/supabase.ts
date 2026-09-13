@@ -97,3 +97,16 @@ export async function fetchPipelineRuns(): Promise<{
     return { data: SAMPLE_RUNS, isLive: false };
   }
 }
+
+export async function toggleSignalStar(id: string, isStarred: boolean): Promise<boolean> {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('market_signals')
+      .update({ is_starred: isStarred })
+      .eq('id', id);
+    return !error;
+  } catch (err) {
+    return false;
+  }
+}

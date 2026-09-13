@@ -130,6 +130,7 @@ export interface MarketSignal {
   raw_title: string;
   published_at: string;
   created_at?: string;
+  is_starred?: boolean;
 }
 
 export interface PipelineRun {
@@ -152,4 +153,5 @@ export interface FilterState {
   selectedCategory: string;
   selectedRegion: RegionFilter;
   sortBy: 'latest' | 'oldest';
+  showStarredOnly: boolean;
 }
