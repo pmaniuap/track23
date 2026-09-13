@@ -79,8 +79,8 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Status Indicators & Refresh */}
-          <div className="flex items-center space-x-4">
+          {/* Status Indicators & Fetch */}
+          <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-end max-sm:gap-1.5 shrink-0">
             {/* Export Button (Option A Badge - Matching Prototype) */}
             <div className="export-wrap shrink-0" ref={exportRef}>
               <button
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({
                   setExportError(null);
                 }}
                 disabled={isExporting || totalSignals === 0}
-                className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap"
+                className="hig-button flex items-center gap-1.5 text-xs whitespace-nowrap"
                 title="Export visible signals"
               >
                 {isExporting ? (
@@ -146,19 +146,19 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </div>
 
-            {/* Refresh Button */}
+            {/* Fetch Button */}
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
-              className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap shadow-sm hover:shadow transition-all"
-              title="Refresh signals from pipeline"
+              className="hig-button !px-2.5 !py-1.5 flex items-center gap-1.5 text-xs whitespace-nowrap shadow-sm hover:shadow transition-all self-end sm:self-auto"
+              title="Fetch signals from pipeline"
             >
               <RefreshCw
                 className={`w-3.5 h-3.5 text-slate-600 ${
                   isRefreshing ? 'animate-spin' : ''
                 }`}
               />
-              <span>Refresh Data</span>
+              <span>Fetch</span>
             </button>
           </div>
         </div>
