@@ -125,7 +125,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 className={`px-3 py-1.5 text-xs rounded-md font-medium transition-all shadow-sm ${
                   filters.selectedRegion === region
                     ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    : 'bg-white text-slate-600 border border-slate-200 filter-chip-inactive'
                 }`}
               >
                 {region === 'All' ? 'All Regions' : region === 'Indian' ? '🇮🇳 Indian' : '🌐 International'}
@@ -140,7 +140,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md font-medium transition-all shadow-sm ${
                 filters.showStarredOnly
                   ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  : 'bg-white text-slate-600 border border-slate-200 filter-chip-inactive'
               }`}
             >
               <Star className={`w-3.5 h-3.5 ${filters.showStarredOnly ? 'fill-yellow-500 text-yellow-500' : ''}`} />

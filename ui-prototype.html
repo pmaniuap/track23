@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Prototype - Star & Filters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8fafc; padding: 2rem; }
+        .section { background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-2xl font-bold mb-6 text-slate-800">UI Fixes Prototype</h1>
+    <p class="mb-8 text-slate-600">This is a throwaway prototype to test the visual fixes for the Star button and the Filter Chips.</p>
+
+    <!-- Star Button Fixes -->
+    <div class="section">
+        <h2 class="text-lg font-semibold mb-4 text-slate-800">1. Star Button Fixes</h2>
+        <p class="text-sm text-slate-500 mb-4">Removing the grey square background and fixing the yellow fill state.</p>
+        
+        <div class="flex items-center gap-8 border p-6 rounded-md bg-white">
+            <!-- Current (Buggy) -->
+            <div class="flex flex-col items-center gap-2">
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Current (Buggy)</span>
+                <button class="p-1 text-slate-400 hover:text-yellow-500 hover:bg-slate-50 rounded-md transition-colors" title="Star this item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+            </div>
+
+            <!-- Variant A: No Padding, Just Icon -->
+            <div class="flex flex-col items-center gap-2">
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider">Variant A (Just Icon)</span>
+                <button class="text-slate-400 hover:text-yellow-500 transition-colors cursor-pointer" title="Star this item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 hover:fill-yellow-100"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+            </div>
+
+            <!-- Variant A: Starred State -->
+            <div class="flex flex-col items-center gap-2">
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider">Variant A (Starred)</span>
+                <button class="text-yellow-500 transition-colors cursor-pointer" title="Remove Star">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Chips Fixes -->
+    <div class="section">
+        <h2 class="text-lg font-semibold mb-4 text-slate-800">2. Filter Chips Readability</h2>
+        <p class="text-sm text-slate-500 mb-4">Making the unselected chips more visible against the white background.</p>
+
+        <div class="space-y-6">
+            <!-- Current (Buggy) -->
+            <div>
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-wider mb-2 block">Current (Unreadable Grey on White)</span>
+                <div class="flex items-center space-x-2 p-4 border rounded-md">
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-white text-slate-900 border border-slate-300 shadow-sm">All Regions (Active)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all text-slate-400 hover:text-slate-600 border border-transparent bg-transparent">🇮🇳 Indian (Inactive)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all text-slate-400 hover:text-slate-600 border border-transparent bg-transparent">🌐 International (Inactive)</button>
+                </div>
+            </div>
+
+            <!-- Variant A: Solid light background for inactive -->
+            <div>
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider mb-2 block">Variant A: Subtle Solid Backgrounds</span>
+                <div class="flex items-center space-x-2 p-4 border rounded-md bg-white">
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-slate-800 text-white shadow-sm">All Regions (Active)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-transparent">🇮🇳 Indian (Inactive)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-transparent">🌐 International (Inactive)</button>
+                </div>
+            </div>
+
+            <!-- Variant B: Outline for inactive -->
+            <div>
+                <span class="text-xs text-blue-600 font-medium uppercase tracking-wider mb-2 block">Variant B: Outlines for Inactive</span>
+                <div class="flex items-center space-x-2 p-4 border rounded-md bg-white">
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">All Regions (Active)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm">🇮🇳 Indian (Inactive)</button>
+                    <button class="px-3 py-1.5 text-xs rounded-md font-medium transition-all bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm">🌐 International (Inactive)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

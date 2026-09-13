@@ -17,11 +17,11 @@ export const Header: React.FC<HeaderProps> = ({
   onRefresh,
 }) => {
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="bg-white border-b border-slate-200 sticky top-4 z-30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 min-h-[4.5rem] flex flex-wrap items-center justify-between gap-4">
         {/* Brand & Title */}
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm">
+          <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm">
             <Activity className="w-5 h-5" />
           </div>
           <div>
@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
               Financial Market Intelligence Radar
             </h1>
             <p className="text-xs text-slate-500 font-medium">
-              Global Strategic Moves & Tech Ingestion Pipeline
+              Tracking 38 institutes
             </p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Status Indicators & Refresh */}
         <div className="flex items-center space-x-4">
           {/* Signal Counter */}
-          <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
+          <div className="flex items-center space-x-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 whitespace-nowrap">
             <Layers className="w-3.5 h-3.5 text-slate-500" />
             <span className="font-semibold text-slate-900">{totalSignals}</span>
             <span>Total Historical Signals</span>
@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="hig-button flex items-center space-x-2 text-xs"
+            className="hig-button flex items-center space-x-2 text-xs whitespace-nowrap"
             title="Refresh signals from pipeline"
           >
             <RefreshCw
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
                 isRefreshing ? 'animate-spin' : ''
               }`}
             />
-            <span className="hidden md:inline">Refresh Data</span>
+            <span>Refresh Data</span>
           </button>
         </div>
       </div>

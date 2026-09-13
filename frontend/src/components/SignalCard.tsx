@@ -59,11 +59,11 @@ export const SignalCard: React.FC<SignalCardProps> = ({ signal, onToggleStar }) 
           </span>
           <button
             onClick={() => onToggleStar && onToggleStar(signal.id, !!signal.is_starred)}
-            className="text-slate-400 hover:text-yellow-500 transition-colors cursor-pointer"
+            className="text-slate-400 star-btn transition-colors cursor-pointer"
             title={signal.is_starred ? 'Remove Star' : 'Star this item'}
           >
             <Star
-              className={`w-5 h-5 hover:fill-yellow-100 ${
+              className={`w-5 h-5 ${
                 signal.is_starred ? 'fill-current text-yellow-500' : ''
               }`}
             />

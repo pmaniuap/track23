@@ -111,6 +111,7 @@ class MarketSignal(BaseModel):
     published_at: datetime
     raw_title: str
     embedding: Optional[List[float]] = None
+    is_starred: bool = False
 
 
 class PipelineRunRecord(BaseModel):

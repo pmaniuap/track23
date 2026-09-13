@@ -306,7 +306,6 @@ a:hover {
 .fill-current { fill: currentColor; }
 .fill-yellow-500 { fill: #eab308; }
 .fill-yellow-400 { fill: #facc15; }
-.hover\:fill-yellow-100:hover { fill: #fef9c3; }
 .text-yellow-500 { color: #eab308; }
 .text-yellow-700 { color: #a16207; }
 
@@ -315,9 +314,10 @@ a:hover {
 .bg-yellow-50 { background-color: #fefce8; }
 .border-yellow-200 { border-color: #fef08a; }
 
-.hover\:border-slate-300:hover { border-color: #cbd5e1; }
-.hover\:bg-slate-50:hover { background-color: #f8fafc; }
-.hover\:text-yellow-500:hover { color: #eab308; }
+.filter-chip-inactive:hover { border-color: #cbd5e1; background-color: #f8fafc; }
+.star-btn:hover { color: #eab308; }
+.star-btn:hover svg { fill: #fef9c3; }
+
 .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
 .cursor-pointer { cursor: pointer; }
 .transition-colors { 

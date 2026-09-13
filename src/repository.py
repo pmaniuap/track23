@@ -52,6 +52,7 @@ class SignalRepository:
             "raw_title": signal.raw_title,
             "title_hash": title_hash,
             "published_at": signal.published_at.isoformat(),
+            "is_starred": signal.is_starred,
         }
 
         if signal.embedding:

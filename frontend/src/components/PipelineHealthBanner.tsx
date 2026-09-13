@@ -28,8 +28,8 @@ export const PipelineHealthBanner: React.FC<PipelineHealthBannerProps> = ({ runs
   });
 
   return (
-    <div className="bg-white border-b border-slate-200 py-3">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-10 text-xs">
+    <div className="bg-white" style={{ paddingTop: '0.5rem', paddingBottom: '0.25rem' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4 text-xs">
         <div className="flex flex-wrap items-center gap-2">
           {latestRun.status === 'success' ? (
             <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
@@ -71,8 +71,8 @@ export const PipelineHealthBanner: React.FC<PipelineHealthBannerProps> = ({ runs
             <strong className="text-slate-900">{totalWritten}</strong>
           </div>
           <div className="h-4 w-px bg-slate-200 mx-1 hidden sm:block"></div>
-          <Link href="/health" className="text-blue-600 hover:text-blue-700 font-medium hover:underline flex items-center">
-            View Health Dashboard <span className="ml-1">→</span>
+          <Link href="/health" className="text-blue-600 hover:text-blue-700 font-medium hover:underline flex items-center whitespace-nowrap">
+            View sources <span className="ml-1">→</span>
           </Link>
         </div>
       </div>
