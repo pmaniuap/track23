@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Financial Market Intelligence Radar',
+  title: 'Signal Tracker',
   description: 'Automated strategic intelligence tracking across 38 global financial institutions.',
 };
 
