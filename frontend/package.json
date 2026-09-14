@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node prebuild.js && next dev --webpack",
     "build": "node prebuild.js && next build --webpack",
     "start": "next start",
     "lint": "eslint"

@@ -285,6 +285,7 @@ export async function openPDFPreview(
     trendSummary: 'Generating executive briefing with Groq Llama 3 120B...',
     now,
     dateStr,
+    isLoading: true,
   });
 
   newTab.document.open();
@@ -296,10 +297,15 @@ export async function openPDFPreview(
     const trendSummary = await generateTrendSummary(signals, filters);
     const summaryEl = newTab.document.getElementById('trend-summary-text');
     if (summaryEl) {
-      summaryEl.textContent = trendSummary;
+      summaryEl.classList.remove('pulse-loading');
+      summaryEl.innerHTML = escHtml(trendSummary).replace(/\n/g, '<br/>');
     }
   } catch (err) {
     console.error('Failed to generate trend summary:', err);
+    const summaryEl = newTab.document.getElementById('trend-summary-text');
+    if (summaryEl) {
+      summaryEl.classList.remove('pulse-loading');
+    }
   }
 }
 
@@ -310,9 +316,10 @@ interface PrintHTMLArgs {
   trendSummary: string;
   now: Date;
   dateStr: string;
+  isLoading?: boolean;
 }
 
-function buildPrintHTML({ signals, grouped, filters, trendSummary, now, dateStr }: PrintHTMLArgs): string {
+function buildPrintHTML({ signals, grouped, filters, trendSummary, now, dateStr, isLoading }: PrintHTMLArgs): string {
   const institutionSections = Object.keys(grouped)
     .sort()
     .map((institution) => {
@@ -381,6 +388,8 @@ function buildPrintHTML({ signals, grouped, filters, trendSummary, now, dateStr 
     .summary-block .label { font-weight: bold; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
     .summary-block .filters { font-size: 8pt; color: #444; margin-bottom: 8px; }
     .summary-block .trend { font-size: 10pt; line-height: 1.55; }
+    .summary-block .trend.pulse-loading { opacity: 0.6; font-style: italic; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
     .summary-block .inst-counts { font-size: 8pt; color: #444; margin-top: 8px; border-top: 1px solid #ccc; padding-top: 6px; }
 
     /* ---- Institution sections ---- */
@@ -443,7 +452,7 @@ function buildPrintHTML({ signals, grouped, filters, trendSummary, now, dateStr 
   <div class="summary-block">
     <div class="label">Trend Summary</div>
     <div class="filters">Filters applied: ${escHtml(describeFilters(filters))}</div>
-    <div class="trend" id="trend-summary-text">${escHtml(trendSummary)}</div>
+    <div class="trend ${isLoading ? 'pulse-loading' : ''}" id="trend-summary-text">${escHtml(trendSummary)}</div>
     <div class="inst-counts">By institution: ${escHtml(institutionCountSummary(grouped))}</div>
   </div>
 
