@@ -99,15 +99,25 @@ Below is a list of ${signals.length} market signals filtered by: ${describeFilte
 Signals:
 ${signalLines}
 
-Write a briefing paragraph of 2–4 complete sentences, between 60 and 100 words, that:
-1. Identifies the dominant theme or trend across these signals.
-2. Names the most active institutions or sectors.
-3. Highlights the most significant or surprising event if one stands out.
+Write an executive briefing summary using EXACTLY the following 2-part structure:
+
+Line 1: A single clear sentence summarizing the overall overarching trend across these signals.
+
+Lines 2 to 6: Exactly 5 telegram-style bullet lines (or up to 5 if fewer than 5 signals exist) highlighting the top 5 most innovative or newest developments. Don't worry about complete grammar. Each bullet MUST follow this exact format:
+- <Institution Name>: <Action in 3-5 words>
+
+Example Output Format:
+Accelerating shift toward instant account-to-account settlement and AI-driven banking across global payment rails.
+- Visa: Launches account-to-account UK network
+- Revolut: Launches instant global P2P
+- State Bank of India: Integrates AI assistant YONO
+- Monzo: Deploys smart fraud prevention tools
+- DBS: Expands institutional crypto custody
 
 CRITICAL RULES:
-- Every sentence MUST be grammatically complete. Do NOT end mid-sentence or mid-word.
-- The paragraph MUST be at least 60 words and no more than 100 words.
-- Output only the paragraph. No headings, no bullet points, no preamble.`;
+- Line 1 MUST be a single trend sentence.
+- Lines 2+ MUST be bullet points starting with "- <Institution Name>: <Action in 3-5 words>".
+- Do NOT output extra intro text, headings, or conclusion lines.`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -153,9 +163,15 @@ function buildFallbackSummary(signals: MarketSignal[], filters: FilterState): st
   for (const s of signals) {
     eventCounts[s.event_type] = (eventCounts[s.event_type] || 0) + 1;
   }
-  const topEvent = Object.entries(eventCounts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? '';
+  const topEvent = Object.entries(eventCounts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? 'Market Activity';
 
-  return `This export covers ${signals.length} market signal${signals.length !== 1 ? 's' : ''} with active filters: ${describeFilters(filters)}. The most active institutions are ${topInst}. The dominant event type is "${topEvent}".`;
+  const line1 = `Accelerating market activity led by ${topInst} with primary focus on ${topEvent}.`;
+  const bullets = signals
+    .slice(0, 5)
+    .map((s) => `- ${s.institution}: ${s.raw_title.slice(0, 45)}`)
+    .join('\n');
+
+  return `${line1}\n${bullets}`;
 }
 
 // ---------------------------------------------------------------------------
