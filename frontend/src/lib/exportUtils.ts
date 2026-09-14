@@ -78,72 +78,28 @@ export async function generateTrendSummary(
   signals: MarketSignal[],
   filters: FilterState
 ): Promise<string> {
-  const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
-
-  if (!apiKey || signals.length === 0) {
+  if (!signals || signals.length === 0) {
     return buildFallbackSummary(signals, filters);
   }
 
-  // Build a compact signal list for the prompt — cap at 60 signals to stay within token limits
-  const sample = signals.slice(0, 60);
-  const signalLines = sample
-    .map(
-      (s) =>
-        `- [${s.institution}] [${s.event_type}] ${s.raw_title} | ${s.so_what.slice(0, 200)}`
-    )
-    .join('\n');
-
-  const prompt = `You are a senior financial market intelligence analyst.
-Below is a list of ${signals.length} market signals filtered by: ${describeFilters(filters)}.
-
-Signals:
-${signalLines}
-
-Write an executive briefing summary using EXACTLY the following 2-part structure:
-
-Line 1: A single clear sentence summarizing the overall overarching trend across these signals.
-
-Lines 2 to 6: Exactly 5 telegram-style bullet lines (or up to 5 if fewer than 5 signals exist) highlighting the top 5 most innovative or newest developments. Don't worry about complete grammar. Each bullet MUST follow this exact format:
-- <Institution Name>: <Action in 3-5 words>
-
-Example Output Format:
-Accelerating shift toward instant account-to-account settlement and AI-driven banking across global payment rails.
-- Visa: Launches account-to-account UK network
-- Revolut: Launches instant global P2P
-- State Bank of India: Integrates AI assistant YONO
-- Monzo: Deploys smart fraud prevention tools
-- DBS: Expands institutional crypto custody
-
-CRITICAL RULES:
-- Line 1 MUST be a single trend sentence.
-- Lines 2+ MUST be bullet points starting with "- <Institution Name>: <Action in 3-5 words>".
-- Do NOT output extra intro text, headings, or conclusion lines.`;
-
   try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/summary', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        model: 'openai/gpt-oss-120b',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
-        max_tokens: 1024,
-      }),
+      body: JSON.stringify({ signals, filters }),
     });
 
     if (!response.ok) {
-      console.warn('[exportUtils] Groq API error — using fallback summary.');
+      console.warn('[exportUtils] /api/summary error — using fallback summary.');
       return buildFallbackSummary(signals, filters);
     }
 
     const data = await response.json();
-    const text = data?.choices?.[0]?.message?.content?.trim();
-    return text || buildFallbackSummary(signals, filters);
+    return data?.summary || buildFallbackSummary(signals, filters);
   } catch (err) {
-    console.warn('[exportUtils] Groq API call failed — using fallback summary.', err);
+    console.warn('[exportUtils] /api/summary request failed — using fallback summary.', err);
     return buildFallbackSummary(signals, filters);
   }
 }
